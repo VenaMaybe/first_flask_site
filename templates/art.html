@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            background-color: #33475b;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Prevents scrollbars */
+        }
+        h1 {
+            text-align: center;
+            color: antiquewhite;
+        }
+
+        #canvasContainer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%; /* Adjust the height as needed */
+        }
+
+        #paintCanvas {
+            width: 100%;
+            height: 100%;
+            border: 0px solid #1e2d3d; /* Adjusted border property */
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1; /* Canvas is below the button */
+        }
+
+        .button {
+            position: absolute;
+            top: 20px; /* Adjust the position as needed */
+            left: 20px; /* Adjust the position as needed */
+            width: 100px;
+            padding: 10px;
+            background-color: #5e90b2;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+            z-index: 100; /* Button is above the canvas */
+            border: none;
+            font-size: 16px;
+        }
+
+        .button:hover {
+            background-color: #4e7d9a;
+        }
+    </style>
+    <title>Vena's Blog???</title>
+</head>
+<body>
+    <h1>Welcome to the Stars!</h1>
+    <div id="canvasContainer">
+        <canvas id="paintCanvas"></canvas>
+        <button id="clearCanvas" class="button">Clear</button>
+    </div>
+
+    
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            var canvas = document.getElementById('paintCanvas');
+            var ctx = canvas.getContext('2d');
+            var isDrawing = false;
+
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            canvas.addEventListener('mousedown', function(e) {
+                if (e.button === 0 /*&& !isOverButton(e)*/) {
+                    isDrawing = true;
+                }
+            });
+
+            canvas.addEventListener('mouseup', function(e) {
+                if (e.button === 0) {
+                    isDrawing = false;
+                }
+            });
+
+            canvas.addEventListener('mousemove', function(e) {
+                if (isDrawing /*&& !isOverButton(e)*/) {
+                    drawDot(ctx, e.pageX, e.pageY);
+                }
+            });
+
+            function drawDot(ctx, x, y) {
+                ctx.fillStyle = 'antiquewhite';
+                ctx.beginPath();
+                ctx.arc(x, y, 2.5, 0, 2 * Math.PI);
+                ctx.fill();
+            }
+
+            document.getElementById('clearCanvas').addEventListener('click', function() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            });
+        });
+    </script>
+</body>
+</html>
