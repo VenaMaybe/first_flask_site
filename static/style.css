@@ -41,5 +41,6 @@ hr {
 }
 .main {
     padding: 20px;
+    padding-top: 0px;
     background-color: #151617; /* Light grey background */
 }
