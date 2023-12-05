@@ -1,41 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <style>
-        body {
-            background-color: #33475b;
-        }
-        h1 {
-            text-align: center;
-            color: antiquewhite;
-        }
-	p {
-	    text-align: center;
-	    color: antiquewhite;
-	}
-        .button {
-            display: block;
-            width: 200px;
-            padding: 10px;
-            margin: 20px auto;
-            background-color: #5e90b2;
-            color: white;
-            text-align: center;
-            border-radius: 5px;
-            text-decoration: none; /* Removes underline from links */
-        }
-        .button:hover {
-            background-color: #4e7d9a; /* Slightly darker on hover */
-        }
-    </style>
-    <title>Vena's Blog???</title>
+    <title>Vena's Doodles</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Welcome to the Stars!</h1>
-    <h1>Hello world!</h1>
-    <p>This is a custom page I guess.</p>
-    <p>Vena and the rats!</p>
-    <a href="/art/" class="button">Draw!</a> <!-- Button Link -->
+    <div class="header">
+        Vena's Doodles
+    </div>
+    <hr>
+    <div class="main">
+        <style>
+            p {
+                text-align: center;
+            }
+        </style>
+        <p>Welcome to my blog about doodles and sketches!</p>
+        <!-- More content goes here -->
+        <a href="/art/" class="button">Draw!</a>
+    </div>
 </body>
 </html>

@@ -1,0 +1,45 @@
+/*Default Body padding!*/
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #151617;
+}
+p {
+    color: white;
+}
+hr {
+    border: none;
+    height: 10px;
+    background-color: #2d2f31; /* Your favorite color */
+    margin-top: 0px;
+    margin-bottom: 0px;
+    border-radius: 3px;
+    width: 80%;
+}
+.button {
+    display: block;
+    width: 200px;
+    padding: 10px;
+    margin: 20px auto;
+    background-color: #D98530;
+    color: #151617;
+    text-align: center;
+    border-radius: 5px;
+    text-decoration: none; /* Removes underline from links */
+}
+.button:hover {
+    background-color: #F2AB27; /* Slightly darker on hover */
+}
+.header {
+    background-color: #151617; /* Your favorite color */
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 24px;
+}
+.main {
+    padding: 20px;
+    background-color: #151617; /* Light grey background */
+}
