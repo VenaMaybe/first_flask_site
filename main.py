@@ -12,6 +12,15 @@ def index():
 def art():
     return render_template('art.html')
 
+@app.route('/testfile/')
+def testfile():
+    try:
+        with open('templates/posts/Test_Post_One.html', 'r') as file:
+            content = file.read()
+            return content  # This will display the file content in the browser
+    except Exception as e:
+        return str(e)  # Display the error in the browser
+
 @app.route('/posts/')
 def posts():
     directory = os.path.abspath('templates/posts')
@@ -19,7 +28,7 @@ def posts():
     # Assume all post templates are stored in 'templates/posts/'
     # Adjust the path according to your project structure
     try:
-        post_files = os.listdir('templates/posts')  # Lists all files in the posts directory
+        post_files = os.listdir(directory)  # Lists all files in the posts directory
         # Create a list of dictionaries with display names and file names
         posts = [{'display': post.replace('.html', '').replace('_', ' '),
                   'link': post.replace('.html', '')} 
