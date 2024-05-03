@@ -14,8 +14,10 @@ def art():
 
 @app.route('/testfile/')
 def testfile():
+    template_directory = app.template_folder
+    posts_directory = os.path.join(template_directory, 'posts')
     try:
-        with open('templates/posts/Test_Post_One.html', 'r') as file:
+        with open(posts_directory + '/Test_Post_One.html', 'r') as file:
             content = file.read()
             return content  # This will display the file content in the browser
     except Exception as e:
@@ -23,12 +25,14 @@ def testfile():
 
 @app.route('/posts/')
 def posts():
-    directory = os.path.abspath('templates/posts')
-    print('Directory path:', directory)
+    # Access the template folder path
+    template_directory = app.template_folder
+    posts_directory = os.path.join(template_directory, 'posts')
+    print('Directory path:', posts_directory)
     # Assume all post templates are stored in 'templates/posts/'
     # Adjust the path according to your project structure
     try:
-        post_files = os.listdir(directory)  # Lists all files in the posts directory
+        post_files = os.listdir(posts_directory)  # Lists all files in the posts directory
         # Create a list of dictionaries with display names and file names
         posts = [{'display': post.replace('.html', '').replace('_', ' '),
                   'link': post.replace('.html', '')} 
