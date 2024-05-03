@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
     <style>
         body {
             background-color: #33475b;
@@ -34,7 +36,7 @@
 
         .button {
             position: absolute;
-            top: 20px; /* Adjust the position as needed */
+            top: 00px; /* Adjust the position as needed */
             left: 20px; /* Adjust the position as needed */
             width: 100px;
             padding: 10px;
@@ -60,49 +62,49 @@
         <div id="canvasContainer">
             <canvas id="paintCanvas"></canvas>
             <button id="clearCanvas" class="button">Clear</button>
+            {% include "navbar.html" %}
         </div>
     </div>
-    
-    
+    <div>
+        <script>
+            document.addEventListener('DOMContentLoaded', (event) => {
+                var canvas = document.getElementById('paintCanvas');
+                var ctx = canvas.getContext('2d');
+                var isDrawing = false;
 
-    <script>
-        document.addEventListener('DOMContentLoaded', (event) => {
-            var canvas = document.getElementById('paintCanvas');
-            var ctx = canvas.getContext('2d');
-            var isDrawing = false;
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
 
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+                canvas.addEventListener('mousedown', function(e) {
+                    if (e.button === 0 /*&& !isOverButton(e)*/) {
+                        isDrawing = true;
+                    }
+                });
 
-            canvas.addEventListener('mousedown', function(e) {
-                if (e.button === 0 /*&& !isOverButton(e)*/) {
-                    isDrawing = true;
+                canvas.addEventListener('mouseup', function(e) {
+                    if (e.button === 0) {
+                        isDrawing = false;
+                    }
+                });
+
+                canvas.addEventListener('mousemove', function(e) {
+                    if (isDrawing /*&& !isOverButton(e)*/) {
+                        drawDot(ctx, e.pageX, e.pageY);
+                    }
+                });
+
+                function drawDot(ctx, x, y) {
+                    ctx.fillStyle = 'antiquewhite';
+                    ctx.beginPath();
+                    ctx.arc(x, y, 2.5, 0, 2 * Math.PI);
+                    ctx.fill();
                 }
-            });
 
-            canvas.addEventListener('mouseup', function(e) {
-                if (e.button === 0) {
-                    isDrawing = false;
-                }
+                document.getElementById('clearCanvas').addEventListener('click', function() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                });
             });
-
-            canvas.addEventListener('mousemove', function(e) {
-                if (isDrawing /*&& !isOverButton(e)*/) {
-                    drawDot(ctx, e.pageX, e.pageY);
-                }
-            });
-
-            function drawDot(ctx, x, y) {
-                ctx.fillStyle = 'antiquewhite';
-                ctx.beginPath();
-                ctx.arc(x, y, 2.5, 0, 2 * Math.PI);
-                ctx.fill();
-            }
-
-            document.getElementById('clearCanvas').addEventListener('click', function() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-            });
-        });
-    </script>
+        </script>
+    </div>
 </body>
 </html>

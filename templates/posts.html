@@ -1,0 +1,22 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Post Doesn't Exist</title>
+</head>
+<body>
+    {% include "navbar.html" %}
+    <div class="header">
+        Welcome to Vena's posts!
+    </div>
+	<hr>
+	<div class="main">
+		{% for post in posts %}
+            <!-- Replace 'btn btn-primary' with your own button class -->
+            <a href="{{ url_for('post', post_name=post.link) }}" class="button">{{ post.display }}</a>
+        {% endfor %}
+	</div>
+</body>
+</html>

@@ -4,8 +4,25 @@ body {
     padding: 0;
     background-color: #151617;
 }
-p {
+.content {
+    padding-top: 10px;
+    padding-inline: 100px;
+    max-width: 600px;
+    margin: 0 auto;
     color: white;
+}
+.numbered-paragraphs{
+    counter-reset: paragraph;
+}
+.numbered-paragraphs p {
+    counter-increment: paragraph;
+    position: relative;
+    margin-left: 30px;
+}
+.numbered-paragraphs p::before {
+    content: counter(paragraph) ". ";
+    position:absolute;
+    left: -30px
 }
 hr {
     border: none;
@@ -15,6 +32,11 @@ hr {
     margin-bottom: 0px;
     border-radius: 3px;
     width: 80%;
+    max-width: 700px;
+}
+h1 {
+    text-align: center;
+    color: antiquewhite;
 }
 .button {
     display: block;
@@ -43,4 +65,28 @@ hr {
     padding: 20px;
     padding-top: 0px;
     background-color: #151617; /* Light grey background */
+}
+.navbar {
+    background-color: #2d2f31; /* Dark background for the navbar */
+    overflow: hidden; /* Clears floats */
+    position: fixed; /* Fixes navbar to the top of the screen */
+    bottom: 0; /* Align top edge of navbar with the page */
+    /*width: 100%; /* Navbar extends full width of the screen */
+    z-index: 200;
+
+    border-top-right-radius: 10px;
+}
+
+.navbar a {
+    float: left; /* Align links to the left side of navbar */
+    display: block; /* Display links as blocks */
+    color: white; /* White text color */
+    text-align: center; /* Center text inside links */
+    padding: 14px 20px; /* Padding inside each link */
+    text-decoration: none; /* Remove underlines from links */
+}
+
+.navbar a:hover {
+    background-color: #ddd; /* Light grey background on hover */
+    color: black; /* Black text color on hover */
 }
