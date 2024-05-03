@@ -14,6 +14,8 @@ def art():
 
 @app.route('/posts/')
 def posts():
+    directory = os.path.abspath('templates/posts')
+    print('Directory path:', directory)
     # Assume all post templates are stored in 'templates/posts/'
     # Adjust the path according to your project structure
     try:
