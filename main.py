@@ -14,8 +14,8 @@ def art():
 
 @app.route('/testfile/')
 def testfile():
-    template_directory = app.template_folder
-    posts_directory = os.path.join(template_directory, 'posts')
+    # template_directory = app.template_folder
+    posts_directory = os.path.join(app.root_path, 'posts')
     try:
         with open(posts_directory + '/Test_Post_One.html', 'r') as file:
             content = file.read()
@@ -23,11 +23,20 @@ def testfile():
     except Exception as e:
         return str(e)  # Display the error in the browser
 
+@app.route('/debug-paths/')
+def debug_paths():
+    return {
+        'root_path': app.root_path,
+        'template_folder': app.template_folder,
+        'computed_template_path': os.path.abspath(app.template_folder)
+    }
+
 @app.route('/posts/')
 def posts():
     # Access the template folder path
-    template_directory = app.template_folder
-    posts_directory = os.path.join(template_directory, 'posts')
+    # template_directory = app.template_folder
+    posts_directory = os.path.join(app.template_folder, 'posts')
+    print('\n\n\n\n')
     print('Directory path:', posts_directory)
     # Assume all post templates are stored in 'templates/posts/'
     # Adjust the path according to your project structure
