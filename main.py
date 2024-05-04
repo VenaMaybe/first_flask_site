@@ -4,6 +4,10 @@ import os
 
 app = Flask(__name__)
 
+DEV_MODE = True
+if DEV_MODE:
+    app.root_path = ""
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -35,7 +39,7 @@ def debug_paths():
 def posts():
     # Access the template folder path
     # template_directory = app.template_folder
-    posts_directory = os.path.join(app.template_folder, 'posts')
+    posts_directory = os.path.join(app.root_path, 'posts')
     print('\n\n\n\n')
     print('Directory path:', posts_directory)
     # Assume all post templates are stored in 'templates/posts/'
