@@ -4,10 +4,6 @@ import os
 
 app = Flask(__name__)
 
-DEV_MODE = True
-if DEV_MODE:
-    app.root_path = ""
-
 @app.route('/')
 def index():
     template_path = os.path.join(app.root_path, 'templates', 'index.html')
@@ -17,7 +13,7 @@ def index():
 def art():
     return render_template('art.html')
 
-@app.route('/testfile/')
+'''@app.route('/testfile/')
 def testfile():
     # template_directory = app.template_folder
     posts_directory = os.path.join(app.root_path, 'posts')
@@ -27,6 +23,7 @@ def testfile():
             return content  # This will display the file content in the browser
     except Exception as e:
         return str(e)  # Display the error in the browser
+'''
 
 @app.route('/debug-paths/')
 def debug_paths():
