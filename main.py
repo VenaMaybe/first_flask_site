@@ -6,7 +6,6 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    template_path = os.path.join(app.root_path, 'templates', 'index.html')
     return render_template('index.html')
 
 @app.route('/art/')
@@ -27,17 +26,20 @@ def testfile():
 
 @app.route('/debug-paths/')
 def debug_paths():
+    posts_directory = os.path.join(app.root_path, 'templates/posts')
     return {
         'root_path': app.root_path,
         'template_folder': app.template_folder,
-        'computed_template_path': os.path.abspath(app.template_folder)
+        'computed_template_path': os.path.abspath(app.template_folder),
+        'posts_directory': posts_directory
+        
     }
 
 @app.route('/posts/')
 def posts():
     # Access the template folder path
     # template_directory = app.template_folder
-    posts_directory = os.path.join(app.root_path, 'posts')
+    posts_directory = os.path.join(app.root_path, 'templates/posts')
     print('\n\n\n\n')
     print('Directory path:', posts_directory)
     # Assume all post templates are stored in 'templates/posts/'
