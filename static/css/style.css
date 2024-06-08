@@ -1,15 +1,24 @@
-/*Default Body padding!*/
+/*Default Stylesheet!!!*/
+
+:root {
+    --text-color: #bec6a4;
+    --background-color: #151617;
+    --primary-color: #9ca28b;
+    --secondary-color: #5f272e;
+    --accent-color: #933539;
+}
+
 body {
     margin: 0;
     padding: 0;
-    background-color: #151617;
+    background-color: var(--background-color);
 }
 .content {
     padding-top: 10px;
     padding-inline: 100px;
     max-width: 600px;
     margin: 0 auto;
-    color: white;
+    color: var(--text-color);
 }
 .numbered-paragraphs{
     counter-reset: paragraph;
@@ -27,7 +36,7 @@ body {
 hr {
     border: none;
     height: 10px;
-    background-color: #2d2f31; /* Your favorite color */
+    background-color: var(--background-color); /* Your favorite color */
     margin-top: 0px;
     margin-bottom: 0px;
     border-radius: 3px;
@@ -36,38 +45,38 @@ hr {
 }
 h1 {
     text-align: center;
-    color: antiquewhite;
+    color: var(--text-color);
 }
 .button {
     display: block;
     width: 200px;
     padding: 10px;
     margin: 20px auto;
-    background-color: #D98530;
-    color: #151617;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
     text-align: center;
     border-radius: 5px;
     text-decoration: none; /* Removes underline from links */
 }
 .button:hover {
-    background-color: #F2AB27; /* Slightly darker on hover */
+    background-color: var(--accent-color); /* Slightly darker on hover */
 }
 .header {
-    background-color: #151617; /* Your favorite color */
+    background-color: var(--background-color); /* Your favorite color */
     height: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: white;
+    color: var(--text-color);
     font-size: 24px;
 }
 .main {
     padding: 20px;
     padding-top: 0px;
-    background-color: #151617; /* Light grey background */
+    background-color: var(--background-color); /* Light grey background */
 }
 .navbar {
-    background-color: #2d2f31; /* Dark background for the navbar */
+    background-color: var(--secondary-color); /* Dark background for the navbar */
     overflow: hidden; /* Clears floats */
     position: fixed; /* Fixes navbar to the top of the screen */
     bottom: 0; /* Align top edge of navbar with the page */
@@ -80,13 +89,13 @@ h1 {
 .navbar a {
     float: left; /* Align links to the left side of navbar */
     display: block; /* Display links as blocks */
-    color: white; /* White text color */
+    color: var(--text-color); /* White text color */
     text-align: center; /* Center text inside links */
     padding: 14px 20px; /* Padding inside each link */
     text-decoration: none; /* Remove underlines from links */
 }
 
 .navbar a:hover {
-    background-color: #ddd; /* Light grey background on hover */
-    color: black; /* Black text color on hover */
+    background-color: var(--accent-color); /* Light grey background on hover */
+    color: var(--text-color); /* Black text color on hover */
 }
