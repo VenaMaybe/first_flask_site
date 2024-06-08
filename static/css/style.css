@@ -6,17 +6,20 @@
     --primary-color: #9ca28b;
     --secondary-color: #5f272e;
     --accent-color: #933539;
+
+    --padding-horizontal: 5%;
 }
 
 body {
     margin: 0;
     padding: 0;
     background-color: var(--background-color);
+    font-size: 100%;
 }
 .content {
     padding-top: 10px;
-    padding-inline: 100px;
-    max-width: 600px;
+    padding-inline: var(--padding-horizontal);
+    max-width: 90%;
     margin: 0 auto;
     color: var(--text-color);
 }
@@ -26,12 +29,12 @@ body {
 .numbered-paragraphs p {
     counter-increment: paragraph;
     position: relative;
-    margin-left: 30px;
+    margin-left: 1.875rem;
 }
 .numbered-paragraphs p::before {
     content: counter(paragraph) ". ";
     position:absolute;
-    left: -30px
+    left: -1.875rem
 }
 hr {
     border: none;
@@ -49,9 +52,9 @@ h1 {
 }
 .button {
     display: block;
-    width: 200px;
-    padding: 10px;
-    margin: 20px auto;
+    width: 18%;
+    padding: 0.625rem;
+    margin: 1.25rem auto;
     background-color: var(--secondary-color);
     color: var(--text-color);
     text-align: center;
@@ -63,15 +66,15 @@ h1 {
 }
 .header {
     background-color: var(--background-color); /* Your favorite color */
-    height: 100px;
+    height: 6.25rem;
     display: flex;
     justify-content: center;
     align-items: center;
     color: var(--text-color);
-    font-size: 24px;
+    font-size: 1.5rem;
 }
 .main {
-    padding: 20px;
+    padding: 1.25rem;
     padding-top: 0px;
     background-color: var(--background-color); /* Light grey background */
 }
@@ -91,7 +94,7 @@ h1 {
     display: block; /* Display links as blocks */
     color: var(--text-color); /* White text color */
     text-align: center; /* Center text inside links */
-    padding: 14px 20px; /* Padding inside each link */
+    padding: 0.875rem 1.25rem; /* Padding inside each link */
     text-decoration: none; /* Remove underlines from links */
 }
 
