@@ -10,6 +10,7 @@ if DEV_MODE:
 
 @app.route('/')
 def index():
+    template_path = os.path.join(app.root_path, 'templates', 'index.html')
     return render_template('index.html')
 
 @app.route('/art/')
