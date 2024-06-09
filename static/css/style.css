@@ -10,66 +10,77 @@
     --padding-horizontal: 5%;
 }
 
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+html {
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
     /*font-style: italic;*/
     font-size: 115%;
-
     margin: 0;
     padding: 0;
     background-color: var(--background-color);
+    color: var(--text-color)
 }
+
 .content {
     padding-top: 10px;
+    padding-bottom: 3.5rem;
     padding-inline: var(--padding-horizontal);
-    max-width: 40rem;
+    max-width: 45rem;
     margin: 0 auto;
-    color: var(--text-color);
-
 }
+
 .numbered-paragraphs{
     counter-reset: paragraph;
 }
+
 .numbered-paragraphs p {
     counter-increment: paragraph;
     position: relative;
     margin-left: 1.875rem;
 }
+
 .numbered-paragraphs p::before {
     content: counter(paragraph) ". ";
     position:absolute;
     left: -1.875rem
 }
+
 hr {
     border: none;
     height: 10px;
-    background-color: var(--secondary-color); /* Your favorite color */
+    background-color: var(--secondary-color);
     margin-top: 0px;
     margin-bottom: 0px;
     border-radius: 3px;
     width: 80%;
     max-width: 700px;
 }
+
 h1 {
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
     /*font-style: italic;*/
     font-size: 1.25rem;
     text-align: center;
-    color: var(--text-color);
-
     padding-block: 0.25rem 0.25rem;
 }
+
 ul {
     color: var(--text-color)
 }
+
 li {
     padding: 0.5rem;
 }
-/*a {
-    color: var(--accent-color)
-}*/
+
 .button {
     display: block;
     width: 18%;
@@ -79,10 +90,48 @@ li {
     color: var(--text-color);
     text-align: center;
     border-radius: 5px;
-    text-decoration: none; /* Removes underline from links */
+    text-decoration: none;
 }
+
 .button:hover {
-    background-color: var(--accent-color); /* Slightly darker on hover */
+    background-color: var(--accent-color);
+}
+
+form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 38px;
+}
+
+.input-todo {
+    padding: 10px;
+    font-size: 1rem;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    width: 300px;
+    border: 5px solid var(--secondary-color);
+    border-radius: 10px 10px 10px 10px; /* Rounded corners on the left */
+    margin: 0;
+    height: 100%;
+}
+
+.input-todo:focus {
+    outline: none;
+}
+
+
+.btn-add {
+    padding: 0.25rem 0.625rem;
+    width: 1rem auto;
+    padding-right: 1rem;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    text-align: left;
+    border-radius: 0 5px 5px 0;
+    text-decoration: none; /* Removes underline from links */
+    height: 100%;
+    border: none;
 }
 
 .btn-remove {
@@ -94,8 +143,10 @@ li {
     text-align: center;
     border-radius: 5px;
     text-decoration: none; /* Removes underline from links */
+    border: none; /* Removes the border */
 }
-.btn-remove:hover {
+
+.btn-remove:hover, .btn-add:hover {
     background-color: var(--accent-color);
 }
 
@@ -105,16 +156,17 @@ li {
     display: flex;
     justify-content: center;
     align-items: center;
-
     color: var(--text-color);
     font-size: 2.5rem;
 }
+
 .main {
     padding: 1.25rem;
     padding-top: 0px;
     background-color: var(--background-color); /* Light grey background */
     text-align: center;
 }
+
 .navbar {
     background-color: var(--secondary-color); /* Dark background for the navbar */
     overflow: hidden; /* Clears floats */
