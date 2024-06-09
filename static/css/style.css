@@ -11,17 +11,22 @@
 }
 
 body {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    /*font-style: italic;*/
+    font-size: 115%;
+
     margin: 0;
     padding: 0;
     background-color: var(--background-color);
-    font-size: 100%;
 }
 .content {
     padding-top: 10px;
     padding-inline: var(--padding-horizontal);
-    max-width: 90%;
+    max-width: 40rem;
     margin: 0 auto;
     color: var(--text-color);
+
 }
 .numbered-paragraphs{
     counter-reset: paragraph;
@@ -39,7 +44,7 @@ body {
 hr {
     border: none;
     height: 10px;
-    background-color: var(--background-color); /* Your favorite color */
+    background-color: var(--secondary-color); /* Your favorite color */
     margin-top: 0px;
     margin-bottom: 0px;
     border-radius: 3px;
@@ -47,9 +52,24 @@ hr {
     max-width: 700px;
 }
 h1 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    /*font-style: italic;*/
+    font-size: 1.25rem;
     text-align: center;
     color: var(--text-color);
+
+    padding-block: 0.25rem 0.25rem;
 }
+ul {
+    color: var(--text-color)
+}
+li {
+    padding: 0.5rem;
+}
+/*a {
+    color: var(--accent-color)
+}*/
 .button {
     display: block;
     width: 18%;
@@ -64,19 +84,36 @@ h1 {
 .button:hover {
     background-color: var(--accent-color); /* Slightly darker on hover */
 }
+
+.btn-remove {
+    width: 18%;
+    padding: 0.25rem 0.625rem;
+    margin: 1.25rem auto;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    text-align: center;
+    border-radius: 5px;
+    text-decoration: none; /* Removes underline from links */
+}
+.btn-remove:hover {
+    background-color: var(--accent-color);
+}
+
 .header {
     background-color: var(--background-color); /* Your favorite color */
     height: 6.25rem;
     display: flex;
     justify-content: center;
     align-items: center;
+
     color: var(--text-color);
-    font-size: 1.5rem;
+    font-size: 2.5rem;
 }
 .main {
     padding: 1.25rem;
     padding-top: 0px;
     background-color: var(--background-color); /* Light grey background */
+    text-align: center;
 }
 .navbar {
     background-color: var(--secondary-color); /* Dark background for the navbar */
@@ -101,4 +138,37 @@ h1 {
 .navbar a:hover {
     background-color: var(--accent-color); /* Light grey background on hover */
     color: var(--text-color); /* Black text color on hover */
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .content {
+        padding-inline: 5%;
+    }
+    .header {
+        font-size: 1.25rem;
+        height: 4.375rem; /* 70px converted to rem */
+    }
+    .button {
+        width: 75%;
+    }
+    .navbar a {
+        padding: 0.625rem 0.875rem; /* 10px 14px converted to rem */
+    }
+}
+
+@media (max-width: 480px) {
+    .content {
+        padding-inline: 2.5%;
+    }
+    .header {
+        font-size: 1rem;
+        height: 3.75rem; /* 60px converted to rem */
+    }
+    .button {
+        width: 90%;
+    }
+    .navbar a {
+        padding: 0.5rem 0.625rem; /* 8px 10px converted to rem */
+    }
 }

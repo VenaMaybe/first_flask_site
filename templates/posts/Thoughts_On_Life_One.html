@@ -1,17 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Thoughts On Life One</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
-    <div class="header">
-        My thoughts before finals. Existential
-    </div>
-    <hr>
-	<div class="numbered-paragraphs content">
-	<p>I'm not sure what to write out in the public eye but maybe something along the lines of my inner most thoughts would be a promptly first thing to share.</p>
-	<p>I was sitting at my desk today, the clock ticking no later than 1:32, when I was struck by the profound―well, not so profound―realization that the future is quite frightful. I sort of felt like, in a way, life was passing me by. This was a rather strange preposition when considering the fact that I do happen to be doing most of the right things. Right things? Right things.</p>
-	</div>
-</body>
-</html>
+{% extends "basePost.html" %}
+
+{% block title %}Thoughts On Life One{% endblock %}
+
+{% block content %}
+<div class="header">
+    My thoughts before finals. Existential
+</div>
+<hr>
+<div class="numbered-paragraphs content">
+    <p>
+        I'm not sure what to write out in the public eye but maybe something along the lines of my inner most thoughts would be a promptly first thing to share.
+    </p>
+	<p>
+        I was sitting at my desk today, the clock ticking no later than 1:32, when I was struck by the profound―well, not so profound―realization that the future is quite frightful. I sort of felt like, in a way, life was passing me by. This was a rather strange preposition when considering the fact that I do happen to be doing most of the right things. Right things? Right things.
+    </p>
+</div>
+{% endblock %}

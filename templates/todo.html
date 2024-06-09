@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Vena's Doodles{% endblock %}
+{% block content %}
+    <h1>To-Do List</h1>
+    <form action="/add" method="post">
+        <input type="text" name="todo" placeholder="Enter a new to-do item">
+        <button type="submit">Add</button>
+    </form>
+    <ul>
+        {% for todo in todos %}
+            <li>{{ todo }} <a href="{{ url_for('remove', todo_id=loop.index0) }}" class="btn-remove">Remove</a></li>
+        {% endfor %}
+    </ul>
+    {% include "navbar.html" %}
+{% endblock %}

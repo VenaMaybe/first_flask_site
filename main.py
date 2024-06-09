@@ -1,39 +1,35 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
 from jinja2 import TemplateNotFound
 import os
 
 app = Flask(__name__)
 
+# Storing data here for now!
+todos = []
+
 @app.route('/')
 def index():
     return render_template('index.html')
 
+@app.route('/todo/')
+def todo():
+    return render_template('todo.html', todos=todos)
+
+@app.route('/add', methods=['POST'])
+def add():
+    new_todo = request.form['todo']
+    todos.append(new_todo)
+    return redirect(url_for('todo'))
+
+@app.route('/remove/<int:todo_id>')
+def remove(todo_id):
+    if 0 <= todo_id < len(todos):
+        del todos[todo_id]
+    return redirect(url_for('todo'))
+
 @app.route('/art/')
 def art():
     return render_template('art.html')
-
-'''@app.route('/testfile/')
-def testfile():
-    # template_directory = app.template_folder
-    posts_directory = os.path.join(app.root_path, 'posts')
-    try:
-        with open(posts_directory + '/Test_Post_One.html', 'r') as file:
-            content = file.read()
-            return content  # This will display the file content in the browser
-    except Exception as e:
-        return str(e)  # Display the error in the browser
-'''
-
-@app.route('/debug-paths/')
-def debug_paths():
-    posts_directory = os.path.join(app.root_path, 'templates/posts')
-    return {
-        'root_path': app.root_path,
-        'template_folder': app.template_folder,
-        'computed_template_path': os.path.abspath(app.template_folder),
-        'posts_directory': posts_directory
-        
-    }
 
 @app.route('/posts/')
 def posts():
@@ -66,6 +62,16 @@ def post(post_name):
     except TemplateNotFound:
         print("uwuwuwuuwuw\n\n\n\n")
         return render_template('doesntExist.html'), 404
+
+@app.route('/debug-paths/')
+def debug_paths():
+    posts_directory = os.path.join(app.root_path, 'templates/posts')
+    return {
+        'root_path': app.root_path,
+        'template_folder': app.template_folder,
+        'computed_template_path': os.path.abspath(app.template_folder),
+        'posts_directory': posts_directory  
+    }
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
