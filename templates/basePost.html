@@ -1,15 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <title>{% block title %}{% endblock %}</title>
-</head>
-<body>
-    {% include "navbar.html" %}
+{% extends "base.html" %}
+{% block title %}{% endblock %}
+{% block content %}
     <div class="container">
-        {% block content %}
+        {% block post_content %}
         {% endblock %}
     </div>
-</body>
-</html>
+{% endblock %}

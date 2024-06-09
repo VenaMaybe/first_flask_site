@@ -11,5 +11,4 @@
             <li>{{ todo }} <a href="{{ url_for('remove', todo_id=loop.index0) }}" class="btn-remove">Remove</a></li>
         {% endfor %}
     </ul>
-    {% include "navbar.html" %}
 {% endblock %}
