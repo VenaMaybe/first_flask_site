@@ -83,11 +83,26 @@ h1 {
 }
 
 ul {
-    color: var(--text-color)
+    text-align: center; /* Centers the list contents */
+    list-style-position: inside; /* Positions bullet points inside the list item content */
+    padding-left: 0; /* Removes default padding */
+    color: var(--text-color);
 }
 
 li {
-    padding: 0.5rem;
+    display: block; /* Displays list items inline */
+    padding: 0.5rem; /* Padding for each list item */
+    margin-right: 20px; /* Adjust space between list items */
+    cursor: move;
+}
+
+li::before {
+    content: '‣'; /* Custom bullet */
+    padding-right: 10px; /* Space between custom bullet and text */
+}
+
+.sortable-ghost {
+    opacity: 0.4;
 }
 
 .button {
@@ -130,6 +145,8 @@ form {
     flex: 1 1 0;
     min-width: 0;
     width: 18.75rem;
+    margin-right: 5px;
+    padding: 0 5px;
     border: none;
     border-radius: 5px 5px 5px 5px; /* Rounded corners on the left */
     height: 100%;

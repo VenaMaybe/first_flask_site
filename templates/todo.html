@@ -8,9 +8,12 @@
 			<button type="submit" class="btn-add-form">Add</button>
 		</form>
 	</div>
-    <ul>
+    <ul id="todo-list">
         {% for todo in todos %}
             <li>{{ todo }} <a href="{{ url_for('remove', todo_id=loop.index0) }}" class="btn-remove">Remove</a></li>
         {% endfor %}
     </ul>
+
+	<script type="module" src="{{ url_for('static', filename='js/Sortable.js') }}"></script>
+	<script type="module" src="{{ url_for('static', filename='js/todo.js') }}"></script>
 {% endblock %}
