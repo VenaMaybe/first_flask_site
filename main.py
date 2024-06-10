@@ -1,8 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask_socketio import SocketIO, emit
 from jinja2 import TemplateNotFound
 import os
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'your_secret_key'
+socketio = SocketIO(app)
 
 # Storing data here for now!
 todos = []
@@ -24,12 +27,14 @@ def add():
     new_todo = {'id': next_id, 'text': new_todo_text}
     todos.append(new_todo)
     next_id += 1
+    socketio.emit('update', {'todos': todos})       # surely this will work :3
     return redirect(url_for('todo'))
 
 @app.route('/remove/<int:todo_id>')
 def remove(todo_id):
     global todos
     todos = [todo for todo in todos if todo['id'] != todo_id]
+    socketio.emit('update', {'todos': todos})       # surely this will work :3
     return redirect(url_for('todo'))
 
 
@@ -45,6 +50,7 @@ def update_order():
             new_todos = [id_to_todo[int(todo_id)] for todo_id in order]
             todos = new_todos
             print('New todos:', new_todos)  # Log the new todos list
+            socketio.emit('update', {'todos': todos})       # surely this will work :3
             return jsonify({'status': 'success', 'new_order': todos})
         except Exception as e:
             print('Error:', str(e))  # Log the error
