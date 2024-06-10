@@ -11,14 +11,21 @@ if (todoList) {
 			console.log('Dragged item:', itemEl);
 			console.log('Old index:', evt.oldIndex);
 			console.log('New index:', evt.newIndex);
-			// Example: update order in the backend
-			// fetch('/update-order', {
-			//     method: 'POST',
-			//     headers: {
-			//         'Content-Type': 'application/json',
-			//     },
-			//     body: JSON.stringify({ oldIndex: evt.oldIndex, newIndex: evt.newIndex }),
-			// });
+			
+			// Get the updated order of all items
+			const updatedOrder = Array.from(todoList.children).map(item => item.dataset.id);
+			console.log('Updated order:', updatedOrder);
+
+			// Send the updated order to the server
+			fetch('/update-order', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ order: updatedOrder }),
+			}).then(response => response.json())
+			  .then(data => console.log(data))
+			  .catch(error => console.error('Error:', error));
 		},
 	});
 }

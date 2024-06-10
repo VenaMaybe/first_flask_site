@@ -10,7 +10,7 @@
 	</div>
     <ul id="todo-list">
         {% for todo in todos %}
-            <li>{{ todo }} <a href="{{ url_for('remove', todo_id=loop.index0) }}" class="btn-remove">Remove</a></li>
+            <li data-id="{{ todo.id }}">{{ todo.text }} <a href="{{ url_for('remove', todo_id=todo.id) }}" class="btn-remove">Remove</a></li>
         {% endfor %}
     </ul>
 

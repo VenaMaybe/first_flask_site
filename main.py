@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 from jinja2 import TemplateNotFound
 import os
 
@@ -6,6 +6,7 @@ app = Flask(__name__)
 
 # Storing data here for now!
 todos = []
+next_id = 1 #Unique IDs for items!
 
 @app.route('/')
 def index():
@@ -13,19 +14,43 @@ def index():
 
 @app.route('/todo/')
 def todo():
+    print('Rendering order:', todos)
     return render_template('todo.html', todos=todos)
 
 @app.route('/add', methods=['POST'])
 def add():
-    new_todo = request.form['todo']
+    global next_id
+    new_todo_text = request.form['todo']
+    new_todo = {'id': next_id, 'text': new_todo_text}
     todos.append(new_todo)
+    next_id += 1
     return redirect(url_for('todo'))
 
 @app.route('/remove/<int:todo_id>')
 def remove(todo_id):
-    if 0 <= todo_id < len(todos):
-        del todos[todo_id]
+    global todos
+    todos = [todo for todo in todos if todo['id'] != todo_id]
     return redirect(url_for('todo'))
+
+
+@app.route('/update-order', methods=['POST'])
+def update_order():
+    global todos
+    order = request.json.get('order')
+    print('Received order:', order)  # Log the received order
+    if order:
+        try:
+            # Create a new list based on the incoming order
+            id_to_todo = {todo['id']: todo for todo in todos}
+            new_todos = [id_to_todo[int(todo_id)] for todo_id in order]
+            todos = new_todos
+            print('New todos:', new_todos)  # Log the new todos list
+            return jsonify({'status': 'success', 'new_order': todos})
+        except Exception as e:
+            print('Error:', str(e))  # Log the error
+            return jsonify({'status': 'failure', 'error': str(e)}), 400
+    return jsonify({'status': 'failure', 'message': 'No order provided'}), 400
+
 
 @app.route('/art/')
 def art():
