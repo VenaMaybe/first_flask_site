@@ -8,7 +8,7 @@ function updateTodoList(todos) {
     todos.forEach(todo => {
         const li = document.createElement('li');
         li.setAttribute('data-id', todo.id);
-        li.innerHTML = `${todo.text} <a href="/remove/${todo.id}" class="btn-remove">Remove</a>`;
+        li.innerHTML = `${todo.text} <a href="#" class="btn-remove" data-id="${todo.id}">Remove</a>`;
         todoList.appendChild(li);
     });
 }

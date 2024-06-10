@@ -28,14 +28,25 @@ def add():
     todos.append(new_todo)
     next_id += 1
     socketio.emit('update', {'todos': todos})       # surely this will work :3
-    return redirect(url_for('todo'))
+    return jsonify({'status': 'success', 'todo': new_todo})
 
-@app.route('/remove/<int:todo_id>')
+@app.route('/remove/<int:todo_id>', methods=['POST'])
 def remove(todo_id):
     global todos
-    todos = [todo for todo in todos if todo['id'] != todo_id]
-    socketio.emit('update', {'todos': todos})       # surely this will work :3
-    return redirect(url_for('todo'))
+    print('\tREMOVE CALLED')
+    
+    # Find the todo item to remove
+    todo_to_remove = next((todo for todo in todos if todo['id'] == todo_id), None)
+    print('Trying to remove: ', todo_to_remove, ' with id: ', todo_id)
+    
+    if todo_to_remove:
+        # Remove the todo item
+        todos = [todo for todo in todos if todo['id'] != todo_id]
+        socketio.emit('update', {'todos': todos})
+        return jsonify({'status': 'success', 'id': todo_id})
+    else:
+        return jsonify({'status': 'failure', 'message': 'Todo not found'}), 404
+
 
 
 @app.route('/update-order', methods=['POST'])
