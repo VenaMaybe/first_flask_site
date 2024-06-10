@@ -29,6 +29,15 @@ body {
     color: var(--text-color)
 }
 
+button,
+input[type="submit"],
+.btn-add-form,
+.btn-remove {
+    font-family: 'Roboto', sans-serif; /* Ensure all buttons use the same font */
+    font-weight: 300;
+    font-size: 1rem;
+}
+
 .content {
     padding-top: 10px;
     padding-bottom: 3.5rem;
@@ -83,7 +92,7 @@ li {
 
 .button {
     display: block;
-    width: 18%;
+    width: 15rem;
     padding: 0.625rem;
     margin: 1.25rem auto;
     background-color: var(--secondary-color);
@@ -97,22 +106,32 @@ li {
     background-color: var(--accent-color);
 }
 
-form {
+.outer-form {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 0 1.25rem;
+}
+
+form {
+    display: flex;
+    border: 5px solid var(--secondary-color);
+    border-radius: 10px;
+    background-color: var(--secondary-color);
+    overflow: hidden;
+    width: auto;
     height: 38px;
 }
 
 .input-todo {
-    padding: 10px;
     font-size: 1rem;
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
-    width: 300px;
-    border: 5px solid var(--secondary-color);
-    border-radius: 10px 10px 10px 10px; /* Rounded corners on the left */
-    margin: 0;
+    flex: 1 1 0;
+    min-width: 0;
+    width: 18.75rem;
+    border: none;
+    border-radius: 5px 5px 5px 5px; /* Rounded corners on the left */
     height: 100%;
 }
 
@@ -121,17 +140,16 @@ form {
 }
 
 
-.btn-add {
+.btn-add-form {
+    flex-shrink: 0;
     padding: 0.25rem 0.625rem;
-    width: 1rem auto;
-    padding-right: 1rem;
     background-color: var(--secondary-color);
     color: var(--text-color);
     text-align: left;
-    border-radius: 0 5px 5px 0;
     text-decoration: none; /* Removes underline from links */
-    height: 100%;
     border: none;
+    border-radius: 5px 5px 5px 5px;
+    height: 100%;
 }
 
 .btn-remove {
@@ -146,7 +164,7 @@ form {
     border: none; /* Removes the border */
 }
 
-.btn-remove:hover, .btn-add:hover {
+.btn-remove:hover, .btn-add-form:hover {
     background-color: var(--accent-color);
 }
 
@@ -198,7 +216,7 @@ form {
         padding-inline: 5%;
     }
     .header {
-        font-size: 1.25rem;
+        font-size: 2rem;
         height: 4.375rem; /* 70px converted to rem */
     }
     .button {
@@ -214,7 +232,7 @@ form {
         padding-inline: 2.5%;
     }
     .header {
-        font-size: 1rem;
+        font-size: 1.5rem;
         height: 3.75rem; /* 60px converted to rem */
     }
     .button {
