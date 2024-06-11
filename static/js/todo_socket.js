@@ -1,4 +1,5 @@
 import lockManager from './todo_lockManager.js';
+import { updateDraggableStatus } from './todo_sortable.js'
 
 // Establish a connection with the Socket.IO server
 const socket = io();
@@ -13,6 +14,8 @@ function updateTodoList(todos) {
 		li.innerHTML = `${todo.text} <a href="#" class="btn-remove" data-id="${todo.id}">Remove</a>`;
 		todoList.appendChild(li);
 	});
+
+	updateDraggableStatus();
 }
 
 // Listen for the 'update' event from the server
@@ -23,10 +26,12 @@ socket.on('update', function(data) {
 
 socket.on('lock', function(data) {
 	lockManager.lockItem(data.todoId);
+	updateDraggableStatus();
 });
 
 socket.on('unlock', function(data) {
 	lockManager.unlockItem(data.todoId);
+	updateDraggableStatus();
 });
 
 export { socket };
