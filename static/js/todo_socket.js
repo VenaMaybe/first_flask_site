@@ -1,12 +1,10 @@
-import lockManager from './todo_lockManager.js';
-import { updateDraggableStatus } from './todo_sortable.js'
-
+import { todoList } from './todo_domExports.js'
 // Establish a connection with the Socket.IO server
-const socket = io();
+const socket = window.io(); // Yoinks io() from the CDN Global Variable
+export default { socket };
 
 // Function to update the todo list in the DOM
-function updateTodoList(todos) {
-	const todoList = document.getElementById('todo-list');
+export function updateTodoList(todos) {
 	todoList.innerHTML = '';
 	todos.forEach(todo => {
 		const li = document.createElement('li');
@@ -14,24 +12,4 @@ function updateTodoList(todos) {
 		li.innerHTML = `${todo.text} <a href="#" class="btn-remove" data-id="${todo.id}">Remove</a>`;
 		todoList.appendChild(li);
 	});
-
-	updateDraggableStatus();
 }
-
-// Listen for the 'update' event from the server
-socket.on('update', function(data) {
-	updateTodoList(data.todos);
-	lockManager.updateLocks(data.locks);
-});
-
-socket.on('lock', function(data) {
-	lockManager.lockItem(data.todoId);
-	updateDraggableStatus();
-});
-
-socket.on('unlock', function(data) {
-	lockManager.unlockItem(data.todoId);
-	updateDraggableStatus();
-});
-
-export { socket };

@@ -1,27 +1,17 @@
-import { socket } from './todo_socket.js';
+import socket from './todo_socket.js';
+import { Sortable } from './Sortable.js'
+import { todoList } from './todo_domExports.js'
 import lockManager from './todo_lockManager.js';
 
-const todoList = document.getElementById('todo-list');
+
 
 console.log("Dragging Initialized");
 
-export function updateDraggableStatus() {
-	console.log('UPDATED DRAGGING STATUS!!!');
 
-	const items = todoList.children;
-	for (let item of items) {
-		const todoId = item.dataset.id;
-		if (lockManager.isLocked(todoId)) {
-			item.classList.add('non-draggable');
-		} else {
-			item.classList.remove('non-draggable');
-		}
-	}
-}
 
 if (todoList) {
 	// Update draggable status before initializing Sortable
-	updateDraggableStatus();
+	// updateDraggableStatus();
 
 	new Sortable(todoList, {
 		animation: 150,
@@ -32,17 +22,17 @@ if (todoList) {
 			const todoId = evt.item.dataset.id;
 			if (lockManager.isLocked(todoId)) {
 				console.log('Item is locked, cannot drag.');
-				evt.preventDefault(); // This is redundant now but kept for clarity
+				evt.preventDefault(); // Prevent drag if item is locked
 			} else {
 				socket.emit('lock', { todoId: todoId });
-				updateDraggableStatus(); // Local Update!!
+				// updateDraggableStatus(); // Local Update!!
 			}
 		},
 		onEnd: function (evt) {
 			console.log('\n\nEnded Dragging: onEnd');
 			const todoId = evt.item.dataset.id;
 			socket.emit('unlock', { todoId: todoId });
-			updateDraggableStatus(); // Local Update!!
+			// updateDraggableStatus(); // Local Update!!
 
 			var itemEl = evt.item;
 			console.log('Dragged item:', itemEl);
