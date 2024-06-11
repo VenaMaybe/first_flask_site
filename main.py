@@ -10,6 +10,7 @@ socketio = SocketIO(app)
 # Storing data here for now!
 todos = []
 next_id = 1 #Unique IDs for items!
+locks = {}
 
 @app.route('/')
 def index():
@@ -30,6 +31,7 @@ def add():
     socketio.emit('update', {'todos': todos})       # surely this will work :3
     return jsonify({'status': 'success', 'todo': new_todo})
 
+# Maybe move this out of the url and into POST?
 @app.route('/remove/<int:todo_id>', methods=['POST'])
 def remove(todo_id):
     global todos
@@ -46,8 +48,6 @@ def remove(todo_id):
         return jsonify({'status': 'success', 'id': todo_id})
     else:
         return jsonify({'status': 'failure', 'message': 'Todo not found'}), 404
-
-
 
 @app.route('/update-order', methods=['POST'])
 def update_order():
@@ -68,6 +68,20 @@ def update_order():
             return jsonify({'status': 'failure', 'error': str(e)}), 400
     return jsonify({'status': 'failure', 'message': 'No order provided'}), 400
 
+@socketio.on('lock')
+def handle_lock(data):
+    todo_id = data['todoId']
+    print('\nLocking: ', todo_id)
+    locks[todo_id] = True
+    emit('lock', {'todoId': todo_id}, broadcast=True)
+
+@socketio.on('unlock')
+def handle_unlock(data):
+    todo_id = data['todoId']
+    print('\nUnlocking', todo_id)
+    if todo_id in locks:
+        del locks[todo_id]
+    emit('unlock', {'todoId': todo_id}, broadcast=True)
 
 @app.route('/art/')
 def art():
