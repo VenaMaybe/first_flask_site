@@ -71,14 +71,14 @@ def update_order():
 @socketio.on('lock')
 def handle_lock(data):
     todo_id = data['todoId']
-    print('\nLocking: ', todo_id)
+    print('\nLocking: ', todo_id, ' locks: ', locks)
     locks[todo_id] = True
     emit('lock', {'todoId': todo_id}, broadcast=True)
 
 @socketio.on('unlock')
 def handle_unlock(data):
     todo_id = data['todoId']
-    print('\nUnlocking', todo_id)
+    print('\nUnlocking', todo_id, ' locks: ', locks)
     if todo_id in locks:
         del locks[todo_id]
     emit('unlock', {'todoId': todo_id}, broadcast=True)
