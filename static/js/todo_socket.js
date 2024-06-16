@@ -1,7 +1,7 @@
 import { todoList } from './todo_domExports.js'
 // Establish a connection with the Socket.IO server
 const socket = window.io(); // Yoinks io() from the CDN Global Variable
-export default { socket };
+export default socket;
 
 // Function to update the todo list in the DOM
 export function updateTodoList(todos) {

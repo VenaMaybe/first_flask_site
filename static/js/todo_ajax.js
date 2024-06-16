@@ -1,3 +1,7 @@
+
+// Move some of this stuff to domExports later!!!
+
+
 document.addEventListener('DOMContentLoaded', function() {
 	// Handle form submission for adding a new todo
 	document.querySelector('#add-todo-form').addEventListener('submit', function(event) {

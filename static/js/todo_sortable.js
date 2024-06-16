@@ -1,5 +1,5 @@
 import socket from './todo_socket.js';
-import { Sortable } from './Sortable.js'
+import Sortable from './sortable.esm.js'
 import { todoList } from './todo_domExports.js'
 import lockManager from './todo_lockManager.js';
 
