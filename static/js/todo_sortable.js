@@ -25,26 +25,79 @@ function removeAllChildrenWithId(parent, id) {
 	});
 }
 
-if (todoList) {
-	new Sortable(todoList, {
-		animation: 150,
-		ghostClass: 'sortable-ghost',
-		filter: '.non-draggable',  // Use a class to filter out non-draggable items
-		onStart: function (evt) {
-			console.log('\n\nStarted Dragging: onStart');
-			const todoId = evt.item.dataset.id;
-			if (lockManager.isLocked(todoId)) {
-				console.log('Item is locked, cannot drag.');
-				evt.preventDefault(); // Prevent drag if item is locked
-			} else {
-				socket.emit('lock', { todoId: todoId });
-			}
-		},
-		onEnd: function (evt) {
-			try {
+// Function to re-parent an element if needed
+function reparentElement(element, parent) {
+	if (!element.parentNode) {
+		parent.appendChild(element);
+	}
+}
+
+// Extension of the defautl Sortable library with custom setters
+class CustomSortable extends Sortable {
+	constructor(element, options) {
+		// Save the original method references.
+		const originalOnStart = options.onStart || (() => {});
+		const originalOnEnd = options.onEnd || (() => {});
+
+		// Extend the onStart and onEnd handlers.
+		options.onStart = (evt) => {
+			this.dragEl = evt.item; // Capture the item being dragged
+			originalOnStart(evt);
+		};
+
+		options.onEnd = (evt) => {
+			this.dragEl = null; // Clear the dragEl on drag end
+			originalOnEnd(evt);
+		};
+
+		// Call the parent constructor with the modified options
+		super(element, options);
+	}
+
+	setParentNode(newParentNode) {
+		console.log('PLEASE WORK:', this.dragEl);
+		if (this.dragEl && newParentNode) {
+			newParentNode.appendChild(this.dragEl);
+			console.log('Parent node set for dragEl:', this.dragEl);
+		} else {
+			console.error('Failed to set parent node for dragEl');
+		}
+	}
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+	const sortableElement = document.getElementById('sortable-list');
+	console.log(sortableElement)
+	//console.log(sortableElement.parentElement)
+
+	if (true/*sortableElement && sortableElement.parentNode*/) {
+		const sortableInstance = new CustomSortable(todoList, {
+			animation: 150,
+			ghostClass: 'sortable-ghost',
+			filter: '.non-draggable',  // Use a class to filter out non-draggable items
+			
+			onStart: function (evt) {
+				console.log('\n\nStarted Dragging: onStart');
+				console.log('evt.item', evt.item, 'evt.item.parent:', evt.item.parentNode)
+				//evt.item.parentNode = null;
+				sortableInstance.setParentNode(todoList)
+				console.log('evt.item', evt.item, 'evt.item.parent:', evt.item.parentNode)
+
+				const todoId = evt.item.dataset.id;
+				if (lockManager.isLocked(todoId)) {
+					console.log('Item is locked, cannot drag.');
+					evt.preventDefault(); // Prevent drag if item is locked
+				} else {
+					socket.emit('lock', { todoId: todoId });
+				}
+			},
+			onEnd: function (evt) {
+				sortableInstance.setParentNode(todoList)
+			
 				console.log('\n\nEnded Dragging: onEnd');
 				const todoId = evt.item.dataset.id;
 				socket.emit('unlock', { todoId: todoId });
+
 
 				// Delay the execution to ensure Sortable has completed its DOM manipulations
 				setTimeout(() => {
@@ -78,6 +131,8 @@ if (todoList) {
 						console.log('Updated order 1.5:', fat);
 					}
 
+					reparentElement(evt.item, todoList);
+
 					console.log('Sending POST to /update-order');
 					// Send the updated order to the server
 					fetch('/update-order', {
@@ -97,9 +152,21 @@ if (todoList) {
 				console.log('New index:', evt.newIndex);
 				console.log('Updated order 2:', updatedIdOrder);
 				console.log('Updated todoList 2:', todoList);
-			} catch (error) {
-				console.error('Error caught:', error);
-			}
-		},
-	});
-}
+			},
+		});
+	} else {
+		console.log('Sortable element or its parent is not found');
+		// Optionally, add a parent or handle the error
+		// For example, append the sortableElement to a parent if it doesn't have one
+		if (sortableElement) {
+			const parent = document.createElement('div');
+			parent.id = 'sortable-parent';
+			parent.appendChild(sortableElement);
+			document.body.appendChild(parent);
+
+			new Sortable(sortableElement, {
+				// your sortable options
+			});
+		}
+	}
+});
