@@ -1,0 +1,9 @@
+on drag start:
+	// no server stuff
+
+
+on drag end:
+
+
+	- send update list to the server
+		// send id and where you're trying to move it!!!

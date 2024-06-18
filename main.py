@@ -46,6 +46,46 @@ def remove(todo_id):
 	emit_todo_update()
 	return jsonify({'status': 'success'})
 
+@app.route('/update-id-location', methods=['POST'])
+def update_id_location():
+	data = request.json
+	todoId = int(data.get('id'))
+	newIndex = int(data.get('newIndex'))
+
+	# todo = next((item for item in todos if item['id'] == todoId), None)
+
+	todo = None  # Initialize todo to None
+
+	# Iterate over each item in the todos list
+	for item in todos:
+		print(item)
+		print(item['id'])
+		print(todoId)
+		# Check if the item's id matches the todoId
+		if item['id'] == todoId:
+			# If a match is found, assign it to todo and break out of the loop
+			todo = item
+			print(todo, "meowmoemwomewomewomeowoew")
+		
+		
+
+	print("Todos,", todos, "Todo,", todo)
+	print("Id,", todoId, "\tNewIndex,", newIndex, "\tTodo,", todo)
+	
+	
+	todos.remove(todo)
+	if newIndex < len(todos):
+		todos.insert(newIndex, todo)
+	else:
+		todos.append(todo)
+	
+	# Emit the updated to-do list to all clients
+	emit_todo_update()
+
+
+	return jsonify({'status': 'success', 'id': todoId, 'newIndex': newIndex})
+
+
 @app.route('/update-order', methods=['POST'])
 def update_order():
 	order = request.json.get('order')
