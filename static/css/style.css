@@ -16,6 +16,8 @@
 
 html {
     box-sizing: border-box;
+    overflow: hidden;
+    height: 100%;
 }
 
 body {
@@ -23,6 +25,7 @@ body {
     font-weight: 300;
     /*font-style: italic;*/
     font-size: 115%;
+    height: 100%;
     margin: 0;
     padding: 0;
     background-color: var(--background-color);
@@ -85,15 +88,22 @@ h1 {
 ul {
     text-align: center; /* Centers the list contents */
     list-style-position: inside; /* Positions bullet points inside the list item content */
-    padding-left: 0; /* Removes default padding */
+    padding: 0;
     margin: 0;
+    margin-bottom: 0.625rem;
+    max-height: calc(100vh - 17rem);
+
     color: var(--text-color);
+    overflow-y: auto; /* Enables vertical scrolling */
+    overflow-x: hidden; /* Prevents horizontal scrolling */
 }
 
 li {
     display: block; /* Displays list items inline */
+    /*line-height: 1.4rem;*/
     padding: 0.5rem; /* Padding for each list item */
-    margin-right: 20px; /* Adjust space between list items */
+    margin: 0 auto;
+    width: 20rem;
     cursor: move;
 }
 

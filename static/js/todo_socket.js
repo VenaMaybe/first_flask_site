@@ -33,10 +33,10 @@ export function updateTodoList(todos) {
 			}
 		} else {
 			// Add new item
-			const li = document.createElement('li');
-			li.setAttribute('data-id', todo.id);
-			li.innerHTML = `${todo.text} <a href="#" class="btn-remove" data-id="${todo.id}">Remove</a>`;
-			}
+			item = document.createElement('li');
+			item.setAttribute('data-id', todo.id);
+			item.innerHTML = `${todo.text} <a href="#" class="btn-remove" data-id="${todo.id}">Remove</a>`;
+		}
 
 		// Append in new order!
 		todoList.appendChild(item);
