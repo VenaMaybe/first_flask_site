@@ -13,7 +13,7 @@
 	</div>
 	<ul id="todo-list" data-id="todo-data-id">
 		{% for todo in todos %}
-			<li data-id="{{ todo.id }}">{{ todo.text }} <a href="#" class="btn-remove" data-id="{{ todo.id }}">Remove</a></li>
+			<li data-id="{{ todo.id }}">{{ todo.text }} <button href="#" class="btn-remove" data-id="{{ todo.id }}">Remove</button></li>
 		{% endfor %}
 	</ul>
 	<p style="text-align: center;" id="rat">

@@ -41,12 +41,13 @@ def add():
 	emit_todo_update()
 	return jsonify({'status': 'success', 'todo': new_todo})
 
-@app.route('/remove/<int:todo_id>', methods=['POST'])
-def remove(todo_id):
+@app.route('/remove', methods=['POST'])
+def remove():
 	global todos
+	todo_id = request.json['todo_id']
 	todos = [todo for todo in todos if todo['id'] != todo_id]
 	emit_todo_update()
-	return jsonify({'status': 'success'})
+	return jsonify({'status': 'success', 'todos': todos})
 
 @app.route('/update-id-location', methods=['POST'])
 def update_id_location():

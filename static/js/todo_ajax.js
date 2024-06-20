@@ -38,8 +38,12 @@ document.addEventListener('DOMContentLoaded', function() {
 			const todoId = targetElement.getAttribute('data-id');
 
 			if (todoId) {
-				fetch(`/remove/${todoId}`, {
+				fetch(`/remove`, {
 					method: 'POST',
+					headers: {
+						'Content-Type' : 'application/json',
+					},
+					body: JSON.stringify({ todo_id: parseInt(todoId) }),
 				})
 				.then(response => response.json())
 				.then(data => {

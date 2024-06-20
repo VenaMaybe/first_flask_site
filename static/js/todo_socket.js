@@ -27,7 +27,7 @@ export function updateTodoList(todos) {
 
 		if (item) {
 			// Update existing item if needed
-			const itemContent = `${todo.text} <a href="#" class="btn-remove" data-id="${todo.id}">Remove</a>`;
+			const itemContent = `${todo.text} <button href="#" class="btn-remove" data-id="${todo.id}">Remove</button>`;
 			if (item.innerHTML !== itemContent) {
 				item.innerHTML = itemContent;
 			}
@@ -35,7 +35,7 @@ export function updateTodoList(todos) {
 			// Add new item
 			item = document.createElement('li');
 			item.setAttribute('data-id', todo.id);
-			item.innerHTML = `${todo.text} <a href="#" class="btn-remove" data-id="${todo.id}">Remove</a>`;
+			item.innerHTML = `${todo.text} <button href="#" class="btn-remove" data-id="${todo.id}">Remove</button>`;
 		}
 
 		// Append in new order!

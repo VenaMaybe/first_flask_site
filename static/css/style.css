@@ -181,9 +181,11 @@ form {
 }
 
 .btn-remove {
-    width: 18%;
+    display: inline-flex;
+    width: 26%;
     padding: 0.25rem 0.625rem;
-    margin: 1.25rem auto;
+    margin-left: .3125rem;
+    margin: audo auto;
     background-color: var(--secondary-color);
     color: var(--text-color);
     text-align: center;
@@ -191,6 +193,20 @@ form {
     text-decoration: none; /* Removes underline from links */
     border: none; /* Removes the border */
 }
+
+/* silly
+.btn-remove::before {
+    content: '‣'; 
+    padding-right: 10px; 
+}
+
+.btn-remove::after {
+    content: '‣'; 
+    display: inline-block;
+    transform: scale(-1, 1);
+    margin-left: 10px; 
+}
+*/
 
 .btn-remove:hover, .btn-add-form:hover {
     background-color: var(--accent-color);
