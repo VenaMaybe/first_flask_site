@@ -51,7 +51,7 @@ def remove(todo_id):
 @app.route('/update-id-location', methods=['POST'])
 def update_id_location():
 	data = request.json
-	todoId = int(data.get('id'))
+	todoId = int(data.get('itemId'))
 	newIndex = int(data.get('newIndex'))
 
 	todo = next((item for item in todos if item['id'] == todoId), None)		
@@ -69,20 +69,21 @@ def update_id_location():
 
 @socketio.on('start_drag')
 def handle_start_drag(data):
-	print('Start Drag, received data:', data)
-	item_id = data['id']
+	print('\tStart Drag, received data:', data)
+	item_id = data['itemId']
 	parent_id = data['parentId']
 	currently_dragged_todos[item_id] = parent_id
-	emit('update_dragged_elements', currently_dragged_todos, broadcast=True)
+	emit('update_dragged_elements_start', currently_dragged_todos, broadcast=True)
+	print('cdt', currently_dragged_todos)
 
 @socketio.on('end_drag')
 def handle_end_drag(data):
-	print('End Drag')
-	item_id = data['id']
+	print('\tEnd Drag')
+	item_id = data['itemId']
 	if item_id in currently_dragged_todos:
 		del currently_dragged_todos[item_id]
-	emit('update_dragged_elements', currently_dragged_todos, broadcast=True)
-
+	emit('update_dragged_elements_end', currently_dragged_todos, broadcast=True)
+	print('cdt', currently_dragged_todos)
 
 @app.route('/update-order', methods=['POST'])
 def update_order():

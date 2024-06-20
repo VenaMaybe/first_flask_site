@@ -103,16 +103,16 @@ class CustomSortable extends Sortable {
 
 			
 			
-//			if (item && parent) {
-//				//console.log('item and parent exist')
-//				// Update the dragEls map
-//				this.dragEls.set(item, parent);
-//				// Move item to its new parent if not already there
-//				if (todoList.querySelector(`[data-id='${itemId}']`)) {
-//					console.log('todo list doesnt contain a similar item')
-//					todoList.appendChild(item);
-//				}
-//			}
+			if (item && parent) {
+				//console.log('item and parent exist')
+				// Update the dragEls map
+				this.dragEls.set(item, parent);
+				// Move item to its new parent if not already there
+				if (todoList.querySelector(`[data-id='${itemId}']`)) {
+					console.log('todo list doesnt contain a similar item')
+					todoList.appendChild(item);
+				}
+			}
 		});
 	}	
 }
@@ -122,13 +122,20 @@ document.addEventListener('DOMContentLoaded', () => {
 	console.log(todoList);
 
 	if (todoList) {
-		/*const sortableInstance = */new CustomSortable(todoList, {
+		new Sortable(todoList, {
 			animation: 150,
 			ghostClass: 'sortable-ghost',
 //			filter: '.non-draggable',  // Use a class to filter out non-draggable items
 			
+
 			onStart: function (evt) {
 				console.log('\n\nStarted Dragging: onStart');
+
+				const itemId = evt.item.dataset.id;
+				const parentId = evt.item.parentNode.id;
+
+				socket.emit('start_drag', { itemId: itemId, parentId: parentId })
+
 //				console.log('evt.item', evt.item, 'evt.item.parent:', evt.item.parentNode);
 //				const todoId = evt.item.dataset.id;
 
@@ -147,13 +154,17 @@ document.addEventListener('DOMContentLoaded', () => {
 			onEnd: function (evt) {
 				console.log('\n\nEnded Dragging: onEnd');
 
+				const itemId = evt.item.dataset.id;
+				const parentId = evt.item.parentNode.id;
+
+				socket.emit('end_drag', { itemId: itemId })
+
+
+
 				const idAndNewIndex = {
-					id: evt.item.dataset.id,
+					itemId: itemId,
 					newIndex: evt.newIndex
 				}
-
-				console.log('evt.newIndex:', evt.newIndex);
-				console.log('evt.item.dataset.id:', evt.item.dataset.id);
 
 				fetch('/update-id-location', {
 					method: 'POST',
@@ -166,7 +177,6 @@ document.addEventListener('DOMContentLoaded', () => {
 				  .catch(error => console.error('Error:', error));
 
 				console.log('New Id Order:', getTodoIds())
-
 
 //				const todoId = evt.item.dataset.id;
 				//sortableInstance.setParentNode(todoId, todoList);
@@ -230,6 +240,16 @@ document.addEventListener('DOMContentLoaded', () => {
 //				console.log('Updated todoList 2:', todoList);
 			}
 		});
+
+		// Listen for updates from the server
+		socket.on('update_dragged_elements_end', (data) => {
+			console.log('Updated dragged elements end:', data);
+
+			
+
+			//this.updateDragEls(data);
+		});
+
 	} else {
 		console.error('todoList does not exist, did not make sortable instance');
 		}
