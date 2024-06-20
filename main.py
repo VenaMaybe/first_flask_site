@@ -9,8 +9,10 @@ socketio = SocketIO(app)
 
 # Storing data here for now!
 todos = []
+
 next_id = 1 #Unique IDs for items!
 locks = {}
+currently_dragged_todos = {} #A shared map of what's being dragged!
 
 @app.route('/')
 def index():
@@ -52,26 +54,7 @@ def update_id_location():
 	todoId = int(data.get('id'))
 	newIndex = int(data.get('newIndex'))
 
-	# todo = next((item for item in todos if item['id'] == todoId), None)
-
-	todo = None  # Initialize todo to None
-
-	# Iterate over each item in the todos list
-	for item in todos:
-		print(item)
-		print(item['id'])
-		print(todoId)
-		# Check if the item's id matches the todoId
-		if item['id'] == todoId:
-			# If a match is found, assign it to todo and break out of the loop
-			todo = item
-			print(todo, "meowmoemwomewomewomeowoew")
-		
-		
-
-	print("Todos,", todos, "Todo,", todo)
-	print("Id,", todoId, "\tNewIndex,", newIndex, "\tTodo,", todo)
-	
+	todo = next((item for item in todos if item['id'] == todoId), None)		
 	
 	todos.remove(todo)
 	if newIndex < len(todos):
@@ -82,8 +65,23 @@ def update_id_location():
 	# Emit the updated to-do list to all clients
 	emit_todo_update()
 
-
 	return jsonify({'status': 'success', 'id': todoId, 'newIndex': newIndex})
+
+@socketio.on('start_drag')
+def handle_start_drag(data):
+	print('Start Drag, received data:', data)
+	item_id = data['id']
+	parent_id = data['parentId']
+	currently_dragged_todos[item_id] = parent_id
+	emit('update_dragged_elements', currently_dragged_todos, broadcast=True)
+
+@socketio.on('end_drag')
+def handle_end_drag(data):
+	print('End Drag')
+	item_id = data['id']
+	if item_id in currently_dragged_todos:
+		del currently_dragged_todos[item_id]
+	emit('update_dragged_elements', currently_dragged_todos, broadcast=True)
 
 
 @app.route('/update-order', methods=['POST'])

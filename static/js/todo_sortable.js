@@ -35,48 +35,94 @@ function reparentElement(element, parent) {
 // Extension of the default Sortable library with custom setters
 class CustomSortable extends Sortable {
 	constructor(element, options) {
-		// Save the original method references.
+		super(element, options);
+		console.log("Custom sortable constructor initialized");
+
+		// Initialize socket and drag elements map
+		this.socket = socket;  // Ensure 'socket' is imported or available in this scope
+		this.dragEls = new Map();
+
+		// Save original method references and extend them
+		this.extendEventHandlers(options);
+	}
+
+	extendEventHandlers(options) {
 		const originalOnStart = options.onStart || (() => {});
 		const originalOnEnd = options.onEnd || (() => {});
 
-		// Extend the onStart and onEnd handlers.
-		options.onStart = (evt) => {
-			const todoId = evt.item.dataset.id;
-			if (!this.dragEls) {
-				this.dragEls = {};
-			}
-			this.dragEls[todoId] = evt.item; // Capture the item being dragged
+		// Extend the onStart handler
+		this.options.onStart = (evt) => {
+			console.log("Drag started");
+
+			const itemId = evt.item.dataset.id;
+			const parentId = evt.item.parentNode.dataset.id;
+
+			// Save the dragged item and its parent node
+			this.dragEls.set(evt.item, evt.item.parentNode);
+
+			// Emit the start_drag event to the server
+			this.socket.emit('start_drag', { id: itemId, parentId: parentId });
+
+			// Call the original onStart handler
 			originalOnStart(evt);
 		};
 
-		options.onEnd = (evt) => {
-			const todoId = evt.item.dataset.id;
-			if (this.dragEls && this.dragEls[todoId]) {
-				delete this.dragEls[todoId]; // Clear the dragEl on drag end
-			}
+		// Extend the onEnd handler
+		this.options.onEnd = (evt) => {
+			console.log("Drag ended");
+
+			const itemId = evt.item.dataset.id;
+
+			// Remove the item from the drag elements map
+			this.dragEls.delete(evt.item);
+
+			// Emit the end_drag event to the server
+			this.socket.emit('end_drag', { id: itemId });
+
+			// Call the original onEnd handler
 			originalOnEnd(evt);
 		};
 
-		// Call the parent constructor with the modified options
-		super(element, options);
+		// Listen for updates from the server
+		this.socket.on('update_dragged_elements', (data) => {
+			console.log('Updated dragged elements:', data);
+			this.updateDragEls(data);
+		});
 	}
 
-	setParentNode(todoId, newParentNode) {
-		console.log('PLEASE WORK:', this.dragEls);
-		if (this.dragEls && this.dragEls[todoId] && newParentNode) {
-			newParentNode.appendChild(this.dragEls[todoId]);
-			console.log('Parent node set for dragEl:', this.dragEls[todoId]);
-		} else {
-			console.error('Failed to set parent node for dragEl');
-		}
-	}
+	updateDragEls(data) {
+		// Clear the existing elements before updating
+		this.dragEls.clear();
+		console.log('clear =====================================================')
+	
+		// Update the map and DOM based on data from the server
+		Object.entries(data).forEach(([itemId, parentId]) => {
+			const item = document.querySelector(`[data-id='${itemId}']`);
+			const parent = document.querySelector(`[data-id='${parentId}']`);
+			console.log('meowwww parent,', parent, 'item,', item);
+
+			
+			
+//			if (item && parent) {
+//				//console.log('item and parent exist')
+//				// Update the dragEls map
+//				this.dragEls.set(item, parent);
+//				// Move item to its new parent if not already there
+//				if (todoList.querySelector(`[data-id='${itemId}']`)) {
+//					console.log('todo list doesnt contain a similar item')
+//					todoList.appendChild(item);
+//				}
+//			}
+		});
+	}	
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
 	console.log(todoList);
 
 	if (todoList) {
-		/*const sortableInstance = */new Sortable(todoList, {
+		/*const sortableInstance = */new CustomSortable(todoList, {
 			animation: 150,
 			ghostClass: 'sortable-ghost',
 //			filter: '.non-draggable',  // Use a class to filter out non-draggable items
@@ -101,22 +147,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			onEnd: function (evt) {
 				console.log('\n\nEnded Dragging: onEnd');
 
-//				const allIds = {
-//					order: getTodoIds()
-//				}
-//				
-//				console.log('Sending POST to /update-order');
-//				// Send the updated order to the server
-//				fetch('/update-order', {
-//					method: 'POST',
-//					headers: {
-//						'Content-Type': 'application/json',
-//					},
-//					body: JSON.stringify(allIds),
-//				}).then(response => response.json())
-//				  .then(data => console.log('POST /update-order:', data))
-//				  .catch(error => console.error('Error:', error));
-					
 				const idAndNewIndex = {
 					id: evt.item.dataset.id,
 					newIndex: evt.newIndex
@@ -202,19 +232,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	} else {
 		console.error('todoList does not exist, did not make sortable instance');
-
-//		console.log('Sortable element or its parent is not found');
-//		// Optionally, add a parent or handle the error
-//		// For example, append the todoList to a parent if it doesn't have one
-//		if (todoList) {
-//			const parent = document.createElement('div');
-//			parent.id = 'sortable-parent';
-//			parent.appendChild(todoList);
-//			document.body.appendChild(parent);
-//
-//			new Sortable(todoList, {
-//				// your sortable options
-//			});
 		}
 	});
 //});
