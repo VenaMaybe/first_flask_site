@@ -56,6 +56,7 @@ class CustomSortable extends Sortable {
 
 			const itemId = evt.item.dataset.id;
 			const parentId = evt.item.parentNode.dataset.id;
+			console.log(parentId);
 
 			// Save the dragged item and its parent node
 			this.dragEls.set(evt.item, evt.item.parentNode);
@@ -109,7 +110,7 @@ class CustomSortable extends Sortable {
 				this.dragEls.set(item, parent);
 				// Move item to its new parent if not already there
 				if (todoList.querySelector(`[data-id='${itemId}']`)) {
-					console.log('todo list doesnt contain a similar item')
+					console.log('todo list doesnt contain a similar item');
 					todoList.appendChild(item);
 				}
 			}
@@ -122,6 +123,9 @@ document.addEventListener('DOMContentLoaded', () => {
 	console.log(todoList);
 
 	if (todoList) {
+		
+		const draggedObjects = new Map();
+
 		new Sortable(todoList, {
 			animation: 150,
 			ghostClass: 'sortable-ghost',
@@ -131,9 +135,14 @@ document.addEventListener('DOMContentLoaded', () => {
 			onStart: function (evt) {
 				console.log('\n\nStarted Dragging: onStart');
 
+				const item = evt.item
 				const itemId = evt.item.dataset.id;
-				const parentId = evt.item.parentNode.id;
+				let parentId = null;
+				if(evt.item.parentNode.id) {
+					parentId = evt.item.parentNode.id;
+				}
 
+				draggedObjects.set(itemId, item)
 				socket.emit('start_drag', { itemId: itemId, parentId: parentId })
 
 //				console.log('evt.item', evt.item, 'evt.item.parent:', evt.item.parentNode);
@@ -155,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				console.log('\n\nEnded Dragging: onEnd');
 
 				const itemId = evt.item.dataset.id;
-				const parentId = evt.item.parentNode.id;
+		//		const parentId = evt.item.parentNode.id;
 
 				socket.emit('end_drag', { itemId: itemId })
 
@@ -245,9 +254,21 @@ document.addEventListener('DOMContentLoaded', () => {
 		socket.on('update_dragged_elements_end', (data) => {
 			console.log('Updated dragged elements end:', data);
 
-			
+			Object.entries(data).forEach(([itemId, parentId]) => {
+				console.log(`ItemId: ${itemId}, ParentId: ${parentId}`);
+				
+				let dragged = draggedObjects.get(itemId)
+				console.log('dragged:', dragged)
 
-			//this.updateDragEls(data);
+				dragged.classList.add('sortable-chosen');
+				dragged.classList.add('sortable-ghost');
+
+				//todoList.removeChild(document.querySelector(`[data-id='${itemId}']`));
+				//todoList.appendChild(draggedObjects.get(itemId));
+
+			});
+
+			draggedObjects.clear()
 		});
 
 	} else {

@@ -5,7 +5,14 @@ export default socket;
 
 // Function to update the todo list in the DOM
 export function updateTodoList(todos) {
-	todoList.innerHTML = '';
+	Array.from(todoList.children).forEach(element => {
+		if (!element.classList.contains('sortable-chosen')) {
+			element.remove();
+		}
+	})
+
+	//todoList.innerHTML = '';
+	
 	todos.forEach(todo => {
 		const li = document.createElement('li');
 		li.setAttribute('data-id', todo.id);
