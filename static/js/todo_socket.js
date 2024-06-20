@@ -5,18 +5,40 @@ export default socket;
 
 // Function to update the todo list in the DOM
 export function updateTodoList(todos) {
-	Array.from(todoList.children).forEach(element => {
-		if (!element.classList.contains('sortable-chosen')) {
-			element.remove();
-		}
-	})
+	const existingItems = Array.from(todoList.children);
+	const todoIds = todos.map(todo => todo.id);
 
-	//todoList.innerHTML = '';
-	
+	// Remove items that are no longer in the todos array
+	console.log(todoIds);
+	existingItems.forEach(item => {
+		const itemId = parseInt(item.getAttribute('data-id'));
+//		console.log('itemId:', itemId);
+//		console.log(todoIds.includes(itemId))
+		if (!todoIds.includes(itemId) && !item.classList.contains('sortable-chosen')) {
+//			console.log('Removing:', item);
+			item.remove();
+		}
+	});
+
+	// Update existing items and add new items
 	todos.forEach(todo => {
-		const li = document.createElement('li');
-		li.setAttribute('data-id', todo.id);
-		li.innerHTML = `${todo.text} <a href="#" class="btn-remove" data-id="${todo.id}">Remove</a>`;
-		todoList.appendChild(li);
+		let item = todoList.querySelector(`[data-id="${todo.id}"]`);
+		console.log('item:', item);
+
+		if (item) {
+			// Update existing item if needed
+			const itemContent = `${todo.text} <a href="#" class="btn-remove" data-id="${todo.id}">Remove</a>`;
+			if (item.innerHTML !== itemContent) {
+				item.innerHTML = itemContent;
+			}
+		} else {
+			// Add new item
+			const li = document.createElement('li');
+			li.setAttribute('data-id', todo.id);
+			li.innerHTML = `${todo.text} <a href="#" class="btn-remove" data-id="${todo.id}">Remove</a>`;
+			}
+
+		// Append in new order!
+		todoList.appendChild(item);
 	});
 }
