@@ -257,11 +257,14 @@ document.addEventListener('DOMContentLoaded', () => {
 			Object.entries(data).forEach(([itemId, parentId]) => {
 				console.log(`ItemId: ${itemId}, ParentId: ${parentId}`);
 				
-				let dragged = draggedObjects.get(itemId)
+				let dragged = "Nothing being dragged";
+				if(draggedObjects.get(itemId)) {
+					dragged = draggedObjects.get(itemId);
+				}
 				console.log('dragged:', dragged)
 
-				dragged.classList.add('sortable-chosen');
-				dragged.classList.add('sortable-ghost');
+//				dragged.classList.add('sortable-chosen');
+//				dragged.classList.add('sortable-ghost');
 
 				//todoList.removeChild(document.querySelector(`[data-id='${itemId}']`));
 				//todoList.appendChild(draggedObjects.get(itemId));
