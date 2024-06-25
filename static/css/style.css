@@ -185,7 +185,7 @@ form {
     width: 26%;
     padding: 0.25rem 0.625rem;
     margin-left: .3125rem;
-    margin: audo auto;
+    margin: auto auto;
     background-color: var(--secondary-color);
     color: var(--text-color);
     text-align: center;
