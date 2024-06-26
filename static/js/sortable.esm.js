@@ -1060,7 +1060,6 @@ var nearestEmptyInsertDetectEvent = function nearestEmptyInsertDetectEvent(evt) 
   }
 };
 var _checkOutsideTargetEl = function _checkOutsideTargetEl(evt) {
-  //console.log('dragEl:', dragEl, 'dragEl.parent:', dragEl.parentNode); // Print the value of dragEl
   if (dragEl) {
     dragEl.parentNode[expando]._isOutsideThisEl(evt.target);
   }
