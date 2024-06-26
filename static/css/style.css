@@ -101,9 +101,10 @@ ul {
 li {
     display: block; /* Displays list items inline */
     /*line-height: 1.4rem;*/
-    padding: 0.5rem; /* Padding for each list item */
+    padding: 0.5rem 3rem; /* Padding for each list item */
+    max-width: 35rem;
     margin: 0 auto;
-    width: 20rem;
+    width: auto;
     cursor: move;
 }
 
@@ -182,7 +183,7 @@ form {
 
 .btn-remove {
     display: inline-flex;
-    width: 26%;
+    width: auto;
     padding: 0.25rem 0.625rem;
     margin-left: .3125rem;
     margin: auto auto;
