@@ -4,7 +4,7 @@ from jinja2 import TemplateNotFound
 import os
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your_secret_key'
+app.config['SECRET_KEY'] = 'your_secret_key' # Idk what I need this for yet
 socketio = SocketIO(app, async_mode='eventlet')
 
 # Storing data here for now!
@@ -117,6 +117,7 @@ def update_order():
 		print('Error:', str(e))
 		return jsonify({'status': 'failure', 'error': str(e)}), 400
 
+'''
 @socketio.on('lock')
 def handle_lock(data):
 	todo_id = data['todoId']
@@ -131,6 +132,7 @@ def handle_unlock(data):
 		del locks[todo_id]
 	print('\nUnlocking', todo_id, ' locks now: ', locks)
 	emit('unlock', {'todoId': todo_id}, broadcast=True)
+'''
 
 @app.route('/art/')
 def art():
