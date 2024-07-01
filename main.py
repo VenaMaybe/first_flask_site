@@ -1,16 +1,49 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from flask_socketio import SocketIO, emit
+from flask_sqlalchemy import SQLAlchemy
 from jinja2 import TemplateNotFound
 import os
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your_secret_key' # Idk what I need this for yet
+app.config['SECRET_KEY'] = 'your_secret_key' # Use later for login sessions?
+app.config['SQLALCHEMY_DATABASE_URI'] = 'meow' # temp move to env file later
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# testing_that_this_is_unique
+
+db = SQLAlchemy(app)
 socketio = SocketIO(app, async_mode='eventlet')
 
-# Storing data here for now!
-todos = []
+# Define the todo model
+class Todo(db.Model):
+	__tablename__ = 'todos'
+	id = db.Column(db.Integer, primary_key=True)
+	text = db.Column(db.String(255), nullable=False)
+	position = db.Column(db.Integer, nullable=False)
 
-next_id = 1 #Unique IDs for items!
+	def to_dict(self):
+		return {'id': self.id, 'text': self.text}
+
+# Init from db
+def load_todos_from_db():
+	global todos, next_id
+	todos = [todo.to_dict() for todo in Todo.query.order_by(Todo.position).all()]
+	next_id = max([todo['id'] for todo in todos], default=0) + 1
+
+#	todos = [todo.to_dict() for todo in Todo.query.all()]
+#	if todos:
+#		next_id = max(todo['id'] for todo in todos) + 1
+#	else:
+#		next_id = 1
+
+# Create database and table
+with app.app_context():
+	db.create_all()
+	load_todos_from_db()
+
+# Storing data here for now!
+#todos = []
+#next_id = 1
 locks = {}
 currently_dragged_todos = {} #A shared map of what's being dragged!
 
@@ -24,6 +57,16 @@ def todo():
 	return render_template('todo.html', todos=todos)
 
 def emit_todo_update():
+	global todos
+
+#	Todo.query.delete()
+#	db.session.commit()
+#
+#	for i, todo in enumerate(todos):
+#		db_todo = Todo(id=todo['id'], text=todo['text'], position=i)
+#		db.session.add(db_todo)
+#	
+#	db.session.commit()
 	
 	print("Todos:")
 	for todo in todos:
@@ -33,11 +76,17 @@ def emit_todo_update():
 
 @app.route('/add', methods=['POST'])
 def add():
-	global next_id
+	global next_id, todos
 	new_todo_text = request.form['todo']
-	new_todo = {'id': next_id, 'text': new_todo_text}
+	new_todo = {'id': next_id, 'text': new_todo_text, 'position': len(todos)}
 	todos.append(new_todo)
 	next_id += 1
+
+	#db stuff
+	db_todo = Todo(id=new_todo['id'], text=new_todo['text'], position=new_todo['position'])
+	db.session.add(db_todo)
+	db.session.commit()
+
 	emit_todo_update()
 	return jsonify({'status': 'success', 'todo': new_todo})
 
@@ -46,6 +95,11 @@ def remove():
 	global todos
 	todo_id = request.json['todo_id']
 	todos = [todo for todo in todos if todo['id'] != todo_id]
+
+	# Update the database
+	Todo.query.filter_by(id=todo_id).delete()
+	db.session.commit()
+
 	emit_todo_update()
 	return jsonify({'status': 'success', 'todos': todos})
 
@@ -63,6 +117,12 @@ def update_id_location():
 	else:
 		todos.append(todo)
 	
+	# Update positions in the database
+	for i, todo in enumerate(todos):
+		db_todo = Todo.query.get(todo['id'])
+		db_todo.position = i
+	db.session.commit()
+
 	# Emit the updated to-do list to all clients
 	emit_todo_update()
 
@@ -116,23 +176,6 @@ def update_order():
 	except Exception as e:
 		print('Error:', str(e))
 		return jsonify({'status': 'failure', 'error': str(e)}), 400
-
-'''
-@socketio.on('lock')
-def handle_lock(data):
-	todo_id = data['todoId']
-	locks[todo_id] = True
-	emit('lock', {'todoId': todo_id}, broadcast=True)
-	print('\nLocking: ', todo_id, ' locks now: ', locks)
-
-@socketio.on('unlock')
-def handle_unlock(data):
-	todo_id = data['todoId']
-	if todo_id in locks:
-		del locks[todo_id]
-	print('\nUnlocking', todo_id, ' locks now: ', locks)
-	emit('unlock', {'todoId': todo_id}, broadcast=True)
-'''
 
 @app.route('/art/')
 def art():
