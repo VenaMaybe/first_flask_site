@@ -53,6 +53,7 @@ def index():
 @app.route('/todo/')
 def todo():
 	print('Rendering order:', todos)
+	load_todos_from_db() # Refreshes todo from db for localhost & vps
 	return render_template('todo.html', todos=todos)
 
 def emit_todo_update():
