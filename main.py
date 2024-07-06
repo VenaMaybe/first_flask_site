@@ -5,11 +5,10 @@ from jinja2 import TemplateNotFound
 import os
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your_secret_key' # Use later for login sessions?
-app.config['SQLALCHEMY_DATABASE_URI'] = 'meow' # temp move to env file later
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# testing_that_this_is_unique
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY') # Use later for login sessions?
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL') # Might want to check if is None later
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 socketio = SocketIO(app, async_mode='eventlet')
