@@ -303,10 +303,13 @@ form {
     border-top-left-radius: 10px; /* Rounded corners for the navbar */
     text-align: center;
     cursor: pointer; /* Ensures it appears clickable */
+    user-select: none;
 }
 
 .clear-button:hover {
     background-color: var(--accent-color);
+    border: none; /* Adjust based on design */
+    user-select: none;
 }
 
 #clearCanvas {
