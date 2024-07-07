@@ -128,7 +128,7 @@ def update_id_location():
 
 		# Update positions in the database
 		for i, todo in enumerate(todos):
-			db_todo = db.session.get(Todo, todoId)
+			db_todo = db.session.get(Todo, todo['id'])
 			db_todo.position = i
 		db.session.commit()
 
