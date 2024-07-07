@@ -30,6 +30,11 @@ body {
     padding: 0;
     background-color: var(--background-color);
     color: var(--text-color);
+    scrollbar-color: var(--secondary-color) #00000000; /* thumb and track colors */
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: var(--secondary-color);
 }
 
 button,
@@ -265,7 +270,7 @@ form {
     user-select: none;
 }
 
-.navbar a {
+.navbar a, .clear-button {
     float: left; /* Align links to the left side of navbar */
     display: block; /* Display links as blocks */
     color: var(--text-color); /* White text color */
@@ -274,13 +279,37 @@ form {
     text-decoration: none; /* Remove underlines from links */
 }
 
-.navbar a:hover {
+.navbar a:hover, .clear-button {
     background-color: var(--accent-color); /* Light grey background on hover */
     color: var(--text-color); /* Black text color on hover */
 }
 
+.bottom-right-navbar {
+    background-color: var(--secondary-color);
+    overflow: hidden;
+    position: fixed; /* Keeps the navbar fixed on the screen */
+    bottom: 0; /* Distance from the bottom edge of the viewport */
+    right: 0px; /* Distance from the right edge of the viewport */
+    z-index: 200; /* Ensures it stays on top of other content */
+    border-top-left-radius: 10px; /* Rounded corners for the navbar */
+    user-select: none;
+}
+
+.clear-button {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    border: none; /* Adjust based on design */
+    font-size: 100%;;
+    border-top-left-radius: 10px; /* Rounded corners for the navbar */
+    text-align: center;
+    cursor: pointer; /* Ensures it appears clickable */
+}
+
+.clear-button:hover {
+    background-color: var(--accent-color);
+}
+
 #clearCanvas {
-    position: absolute;
     top: 20px;
     left: 20px;
     z-index: 100; /* Ensure it's above the canvas */
@@ -316,7 +345,7 @@ form {
     .button {
         width: 75%;
     }
-    .navbar a {
+    .navbar a, .clear-button {
         padding: 0.625rem 0.875rem; /* 10px 14px converted to rem */
     }
 }
@@ -332,7 +361,7 @@ form {
     .button {
         width: 90%;
     }
-    .navbar a {
+    .navbar a, .clear-button {
         padding: 0.5rem 0.625rem; /* 8px 10px converted to rem */
     }
 }

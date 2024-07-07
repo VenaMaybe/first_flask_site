@@ -5,9 +5,11 @@
 		Welcome to the Stars!
 	</div>
 	<hr>
-	<button id="clearCanvas" class="button">Clear</button>
 	<div id="canvasContainer">
 		<canvas id="paintCanvas"></canvas>
 	</div>
+	<div class="bottom-right-navbar">
+        <button id="clearCanvas" class="clear-button">Clear</button>
+    </div>
 	<script type="module" src="{{ url_for('static', filename='js/art_main.js') }}"></script>
 {% endblock %}
