@@ -185,8 +185,8 @@ form {
     display: inline-flex;
     width: auto;
     padding: 0.25rem 0.625rem;
-    margin-left: .3125rem;
     margin: auto auto;
+    margin-left: 5px;
     background-color: var(--secondary-color);
     color: var(--text-color);
     text-align: center;

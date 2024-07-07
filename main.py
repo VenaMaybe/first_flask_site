@@ -94,11 +94,19 @@ def add():
 def remove():
 	global todos
 	todo_id = request.json['todo_id']
+
+	print("Currently dragged: ", currently_dragged_todos)
+
+	if str(todo_id) in currently_dragged_todos:
+		emit_todo_update()
+		return jsonify({'status': 'failure', 'message': 'Todo is currently being dragged and cannot be removed'}), 400
+
 	todos = [todo for todo in todos if todo['id'] != todo_id]
 
 	# Update the database
 	Todo.query.filter_by(id=todo_id).delete()
 	db.session.commit()
+			# This happens a little bit slower than ui update
 
 	emit_todo_update()
 	return jsonify({'status': 'success', 'todos': todos})
@@ -111,22 +119,24 @@ def update_id_location():
 
 	todo = next((item for item in todos if item['id'] == todoId), None)		
 	
-	todos.remove(todo)
-	if newIndex < len(todos):
-		todos.insert(newIndex, todo)
-	else:
-		todos.append(todo)
-	
-	# Update positions in the database
-	for i, todo in enumerate(todos):
-		db_todo = Todo.query.get(todo['id'])
-		db_todo.position = i
-	db.session.commit()
+	if todo:
+		todos.remove(todo)
+		if newIndex < len(todos):
+			todos.insert(newIndex, todo)
+		else:
+			todos.append(todo)
 
-	# Emit the updated to-do list to all clients
-	emit_todo_update()
+		# Update positions in the database
+		for i, todo in enumerate(todos):
+			db_todo = db.session.get(Todo, todoId)
+			db_todo.position = i
+		db.session.commit()
 
-	return jsonify({'status': 'success', 'id': todoId, 'newIndex': newIndex})
+		# Emit the updated to-do list to all clients
+		emit_todo_update()
+
+		return jsonify({'status': 'success', 'id': todoId, 'newIndex': newIndex})
+	return jsonify({'status': 'error', 'message': 'Todo not found'}), 404
 
 @socketio.on('start_drag')
 def handle_start_drag(data):

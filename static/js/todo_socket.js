@@ -12,10 +12,12 @@ export function updateTodoList(todos) {
 	console.log(todoIds);
 	existingItems.forEach(item => {
 		const itemId = parseInt(item.getAttribute('data-id'));
-//		console.log('itemId:', itemId);
-//		console.log(todoIds.includes(itemId))
+		console.log('itemId:', itemId);
+		console.log(!todoIds.includes(itemId))
+		console.log('Gabe Check:', !item.classList.contains('sortable-chosen'))
+
 		if (!todoIds.includes(itemId) && !item.classList.contains('sortable-chosen')) {
-//			console.log('Removing:', item);
+			console.log('Removing:', item);
 			item.remove();
 		}
 	});

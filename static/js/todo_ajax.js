@@ -38,6 +38,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			const todoId = targetElement.getAttribute('data-id');
 
 			if (todoId) {
+				targetElement.parentElement.remove()
+
 				fetch(`/remove`, {
 					method: 'POST',
 					headers: {
