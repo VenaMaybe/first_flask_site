@@ -36,7 +36,7 @@ body {
 /*~~ Organized ~~*/
 
 .container-width {
-    width: 80%;
+    width: 60%;
     max-width: 700px;
     margin: 0 auto;
 }
@@ -412,6 +412,9 @@ form {
     .navbar a, .clear-button {
         padding: 0.625rem 0.875rem; /* 10px 14px converted to rem */
     }
+    .container-width {
+        width: 80%;
+    }
 }
 
 @media (max-width: 480px) {
@@ -427,5 +430,8 @@ form {
     }
     .navbar a, .clear-button {
         padding: 0.5rem 0.625rem; /* 8px 10px converted to rem */
+    }
+    .container-width {
+        width: 80%;
     }
 }

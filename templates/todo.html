@@ -1,21 +1,23 @@
 {% extends "base.html" %}
 {% block title %}Vena's Doodles{% endblock %}
 {% block content %}
-	<div class="header">
-		To-Do List
+	<div class="container-width">
+		<div class="header">
+			To-Do List
+		</div>
+		<hr>
+		<div class="outer-form">
+			<form id="add-todo-form">
+				<input type="text" name="todo" placeholder="Enter a new to-do item" class="input-todo">
+				<button type="submit" class="btn-add-form">Add</button>
+			</form>
+		</div>
+		<ul id="todo-list" data-id="todo-data-id">
+			{% for todo in todos %}
+				<li data-id="{{ todo.id }}">{{ todo.text }} <button href="#" class="btn-remove" data-id="{{ todo.id }}">Remove</button></li>
+			{% endfor %}
+		</ul>
 	</div>
-	<hr>
-	<div class="outer-form">
-		<form id="add-todo-form">
-			<input type="text" name="todo" placeholder="Enter a new to-do item" class="input-todo">
-			<button type="submit" class="btn-add-form">Add</button>
-		</form>
-	</div>
-	<ul id="todo-list" data-id="todo-data-id">
-		{% for todo in todos %}
-			<li data-id="{{ todo.id }}">{{ todo.text }} <button href="#" class="btn-remove" data-id="{{ todo.id }}">Remove</button></li>
-		{% endfor %}
-	</ul>
 
 	<!-- Socket.IO Library -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.min.js" crossorigin="anonymous"></script>
