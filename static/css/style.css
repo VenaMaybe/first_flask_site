@@ -33,6 +33,79 @@ body {
     scrollbar-color: var(--secondary-color) #00000000; /* thumb and track colors */
 }
 
+/*~~ Organized ~~*/
+
+.container-width {
+    width: 80%;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.container-height {
+    height: 100vh;
+    padding-top: 1rem;
+    padding-bottom: 5rem;
+    overflow-y: auto;
+}
+
+.block-top {
+    background-color: var(--accent-color);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.block-text-inset {
+    background-color: var(--secondary-color);
+    border-radius: 5px;
+    margin: 0.25rem;
+    padding: 0rem 0rem;
+}
+
+p {
+    margin: 0;
+    padding: 1rem;
+}
+
+b {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 1.25rem;
+    display: block;
+    padding: 1rem 1rem;
+}
+
+hr {
+    background-color: var(--accent-color);
+    position: relative;
+    border: none;
+    height: .25rem;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    /* width: 80%;
+    max-width: 700px; */
+    z-index: 100;
+    pointer-events: none;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+hr.rounded {
+    border-radius: 5px;
+}
+
+hr.extended {
+    width: calc(100% + 40px); /* Extend the width by 40px */
+    margin-left: -20px; /* Offset the left margin by 20px */
+    margin-right: -20px; /* Offset the right margin by 20px */
+}
+
+hr.margined {
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+}
+
+/*Unorganized*/
+
 ::-webkit-scrollbar-thumb:active {
     background: var(--secondary-color);
 }
@@ -82,22 +155,6 @@ input[type="submit"],
     left: -1.875rem
 }
 
-hr {
-    position: relative;
-    border: none;
-    height: 10px;
-    background-color: var(--secondary-color);
-    margin-top: 0px;
-    margin-bottom: 0px;
-    border-radius: 3px;
-    width: 80%;
-    max-width: 700px;
-    z-index: 100;
-    pointer-events: none;
-    flex-grow: 0;
-    flex-shrink: 0;
-}
-
 h1 {
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
@@ -125,7 +182,7 @@ li {
     /*line-height: 1.4rem;*/
     padding: 0.5rem 3rem; /* Padding for each list item */
     max-width: 35rem;
-    margin: 0 auto;
+    margin: 0 2.5rem;
     width: auto;
     cursor: move;
     user-select: none;
@@ -304,12 +361,16 @@ form {
     text-align: center;
     cursor: pointer; /* Ensures it appears clickable */
     user-select: none;
+    outline: none; /* Remove default outline */
+    -webkit-appearance: none; /* Remove default appearance on WebKit browsers */
+    -moz-appearance: none; /* Remove default appearance on Firefox */
+    appearance: none; /* Remove default appearance on other browsers */
 }
 
 .clear-button:hover {
-    background-color: var(--accent-color);
-    border: none; /* Adjust based on design */
     user-select: none;
+    background-color: var(--accent-color);
+    outline: none;
 }
 
 #clearCanvas {
