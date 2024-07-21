@@ -1,13 +1,6 @@
 /*Default Stylesheet!!!*/
 
 :root {
-    --text-color: #bec6a4;
-    --background-color: #151617;
-    --primary-color: #9ca28b;
-    --secondary-color: #5f272e;
-    --accent-color: #933539;
-    --dark-color: #37375c67;
-
     --text-color: #0f0e0e;
     --background-color: #bbc4cc;
     --primary-color: #4a591d;
@@ -257,6 +250,7 @@ ul {
     margin: 0;
     margin-bottom: 0.625rem;
     max-height: calc(100vh - 17rem);
+    padding-left: 0;
     user-select: none;
     color: var(--text-color);
     overflow-y: auto; /* Enables vertical scrolling */
@@ -267,7 +261,6 @@ li {
     display: block; /* Displays list items inline */
     /*line-height: 1.4rem;*/
     padding: 0.5rem 3rem; /* Padding for each list item */
-    max-width: 35rem;
     margin: 0 2.5rem;
     width: auto;
     cursor: move;
@@ -477,9 +470,6 @@ form {
     .left-column, .right-column {
         width: 100%; /* Make sure columns take full width */
     }
-    ul {
-        padding-left: 0;
-    }
 }
 
 @media (max-width: 480px) {
@@ -507,8 +497,5 @@ form {
     }
     .left-column, .right-column {
         width: 100%; /* Make sure columns take full width */
-    }
-    ul {
-        padding-left: 0;
     }
 }
