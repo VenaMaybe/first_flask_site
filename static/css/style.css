@@ -4,12 +4,10 @@
     --text-color: #0f0e0e;
     --background-color: #bbc4cc;
     --primary-color: #4a591d;
-    --secondary-color: #c4b6be;
+    --secondary-color: #e1cfd9;
     --secondary-gradient: linear-gradient(0deg, #fffffe, #3e6b1f);
     --accent-color: #b47e83;
-    --dark-color: #9b8d8d66;
-
-    --padding-horizontal: 5%;
+    --dark-color: #bfa5ad66;
 }
 
 *, *::before, *::after {
@@ -217,7 +215,7 @@ input[type="submit"],
 
 .content {
     padding-top: 10px;
-    padding-inline: var(--padding-horizontal);
+    padding-inline: 5%;
     max-width: 43.75rem;
     margin: 0 auto;
     margin-bottom: 5rem;
