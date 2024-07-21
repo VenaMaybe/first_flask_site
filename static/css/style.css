@@ -6,6 +6,15 @@
     --primary-color: #9ca28b;
     --secondary-color: #5f272e;
     --accent-color: #933539;
+    --dark-color: #37375c67;
+
+    --text-color: #0f0e0e;
+    --background-color: #bbc4cc;
+    --primary-color: #4a591d;
+    --secondary-color: #c4b6be;
+    --secondary-gradient: linear-gradient(0deg, #fffffe, #3e6b1f);
+    --accent-color: #b47e83;
+    --dark-color: #9b8d8d66;
 
     --padding-horizontal: 5%;
 }
@@ -28,7 +37,10 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
-    background-color: var(--background-color);
+    /* background-color: var(--background-color); */
+    background-image: url('../images/peter-aroner-fog.jpg');
+    background-position: bottom;
+    background-size: 100%;
     color: var(--text-color);
     scrollbar-color: var(--secondary-color) #00000000; /* thumb and track colors */
 }
@@ -58,22 +70,42 @@ body {
 }
 
 .left-column {
-    background-color: #594848;
+    background-color: var(--dark-color);
     padding: 1rem;
+    border-radius: 5px;
+
 }
 
 .right-column {
-    background-color: #693e3e;
+    background-color: var(--dark-color);
     padding: 1rem;
-    padding-top: 2.5rem;
     display: flex;
     flex-direction: column;
     gap: 0.5rem; /* Space between buttons */
     overflow: hidden;
+    border-radius: 5px;
 }
 
-.block-top {
+.button {
+    background-color: var(--secondary-color);
+    display: block;
+    width: 100%;
+    padding: 0.625rem;
+    margin: 0 auto;
+    color: var(--text-color);
+    text-align: center;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.button:hover {
     background-color: var(--accent-color);
+    z-index: 10000;
+}
+
+
+.block-top {
+    /* background-color: var(--accent-color); */
     border-radius: 5px;
     overflow: hidden;
 }
@@ -99,18 +131,25 @@ b {
 }
 
 .header {
+    position: relative;
     background-color: transparent;
     text-align: left;
     height: 6.25rem;
     font-size: 2.5rem;
+    padding: 0.25rem;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     pointer-events: none; /* art passthrough */
     user-select: none;
-    z-index: 5;
+    z-index: 100;
     flex-grow: 0;
     flex-shrink: 0;
+}
+
+.header.sub {
+    font-size: 2rem;
+    justify-content: center;
 }
 
 hr {
@@ -147,24 +186,10 @@ hr.accent {
     background-color: var(--accent-color)
 }
 
-.button {
-    display: block;
-    width: 100%;
-    padding: 0.625rem;
-    margin: 0 auto;
-    background-color: var(--secondary-color);
-    color: var(--text-color);
-    text-align: center;
-    border-radius: 0px;
-    /* clip-path: polygon(100% 50%,50% 100%,0% 50%,50% 0%);
-    aspect-ratio: 2; */
-    text-decoration: none;
-    transform: rotate(-45deg);
+hr.invis {
+    background-color: transparent;
 }
 
-.button:hover {
-    background-color: var(--accent-color);
-}
 
 /*Unorganized*/
 
@@ -229,7 +254,6 @@ h1 {
 ul {
     text-align: center; /* Centers the list contents */
     list-style-position: inside; /* Positions bullet points inside the list item content */
-    padding: 0;
     margin: 0;
     margin-bottom: 0.625rem;
     max-height: calc(100vh - 17rem);
@@ -445,9 +469,18 @@ form {
     .container-width {
         width: 80%;
     }
+    .container-grid {
+        grid-template-columns: 1fr; /* Stack columns */
+    }
+    .left-column, .right-column {
+        width: 100%; /* Make sure columns take full width */
+    }
 }
 
 @media (max-width: 480px) {
+    body {
+        background-size: 120%;
+    }
     .content {
         padding-inline: 2.5%;
     }
@@ -462,6 +495,12 @@ form {
         padding: 0.5rem 0.625rem; /* 8px 10px converted to rem */
     }
     .container-width {
-        width: 80%;
+        width: 100%;
+    }
+    .container-grid {
+        grid-template-columns: 1fr; /* Stack columns */
+    }
+    .left-column, .right-column {
+        width: 100%; /* Make sure columns take full width */
     }
 }

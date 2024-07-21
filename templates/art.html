@@ -1,15 +1,17 @@
 {% extends "base.html" %}
 {% block title %}Vena's Doodles{% endblock %}
 {% block content %}
+	<div class="container-width">
 	<div class="header">
 		Welcome to the Stars!
 	</div>
-	<hr>
+	<hr class="rounded">
 	<div id="canvasContainer">
 		<canvas id="paintCanvas"></canvas>
 	</div>
 	<div class="bottom-right-navbar">
         <button id="clearCanvas" class="clear-button">Clear</button>
     </div>
+	</div>
 	<script type="module" src="{{ url_for('static', filename='js/art_main.js') }}"></script>
 {% endblock %}
