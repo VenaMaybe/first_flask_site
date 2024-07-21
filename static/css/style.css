@@ -272,6 +272,8 @@ li {
     width: auto;
     cursor: move;
     user-select: none;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 li::before {
@@ -475,6 +477,9 @@ form {
     .left-column, .right-column {
         width: 100%; /* Make sure columns take full width */
     }
+    ul {
+        padding-left: 0;
+    }
 }
 
 @media (max-width: 480px) {
@@ -502,5 +507,8 @@ form {
     }
     .left-column, .right-column {
         width: 100%; /* Make sure columns take full width */
+    }
+    ul {
+        padding-left: 0;
     }
 }
