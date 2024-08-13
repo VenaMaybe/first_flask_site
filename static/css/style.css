@@ -181,6 +181,9 @@ hr.invis {
     background-color: transparent;
 }
 
+.nowrap {
+    white-space: nowrap;
+}
 
 /*Unorganized*/
 
@@ -231,6 +234,11 @@ input[type="submit"],
     content: counter(paragraph) ". ";
     position:absolute;
     left: -1.875rem
+}
+
+.numbered-paragraphs .right-align {
+    text-align: right;
+    margin-right: 1.5rem; /* Ensure it's aligned with the content */
 }
 
 h1 {
