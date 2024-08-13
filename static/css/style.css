@@ -214,6 +214,7 @@ input[type="submit"],
     overflow-y: auto;
     height: 100vh;
     box-sizing: border-box;
+    padding-bottom: 10rem;
 }
 
 .content {
