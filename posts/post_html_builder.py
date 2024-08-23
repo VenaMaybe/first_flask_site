@@ -1,5 +1,7 @@
 from pathlib import Path
 
+# this is asking for a path to the post for input
+# Ex: Path to post: carpet.md
 path = Path(input("Path to post: "))
 
 if not path.exists() or path.is_dir():
@@ -18,6 +20,9 @@ for line in lines:
 	if line.removeprefix("# ") != line:
 		title = line.lstrip("# ")
 		continue
+	if line.removeprefix("## ") != line:
+		button_name = line.lstrip("## ")
+		continue
 	if line.lstrip("> ") != line:
 		date = line.lstrip("> ")
 		continue
@@ -35,7 +40,7 @@ footer = '<div class="right-align"> DATE </div> </div> {% endblock %}'
 footer = footer.replace("DATE", date)
 
 new_html_file_text = header + body + footer
-new_html_file_name = title.title().replace(" ", "_") + ".html"
+new_html_file_name = button_name.title().replace(" ", "_") + ".html"
 
 result_path = Path("../templates/posts/" + new_html_file_name)
 result_path.write_text(new_html_file_text)

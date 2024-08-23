@@ -1,0 +1,13 @@
+I wanna make a little productivity tracker.
+
+Inputs:
+
+	Button 1
+
+		Everytime the button is pressed, a section of time is saved with a tag (Productive/Unproductive)
+
+
+		|---Productive---||-------Unproductive-------||-Productive-||---------Unproductive---------|
+
+
+		Array [ Start(Datetime), End(Datetime), Type(Enum[Prod/Unprod]) ]
