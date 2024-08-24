@@ -2,16 +2,59 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify
 from flask_socketio import SocketIO, emit
 from flask_sqlalchemy import SQLAlchemy
 from jinja2 import TemplateNotFound
+from datetime import datetime # [USE : TIME TRACKER]
 import os
 
 app = Flask(__name__)
-
+#app.url_map.strict_slashes = False # Doesn't force the absense of / after url
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY') # Use later for login sessions?
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL') # Might want to check if is None later
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 socketio = SocketIO(app, async_mode='eventlet')
+
+### Slash Remover
+@app.before_request
+def remove_trailing_slash():
+    path = request.path
+    # If the request path ends with a slash but is not the root path, redirect
+    if path != '/' and path.endswith('/'):
+        return redirect(path.rstrip('/'), code=301) # Code for SEO silliness
+
+### Time tracker
+@app.route('/time-tracker')
+def time_tracker():
+	return render_template('time-tracker.html')
+
+last_state_time = datetime.now()
+
+@app.route('/time-tracker/state', methods=['POST'])
+def time_tracker_state_update():
+	global last_state_time
+
+	state = request.get_json().get('state')
+	current_state_time = datetime.now()
+
+	difference_state_time = current_state_time - last_state_time;
+
+	# Extract hours, minutes, and seconds from the timedelta
+	total_seconds = difference_state_time.total_seconds()
+	hours, remainder = divmod(total_seconds, 3600)
+	minutes, seconds = divmod(remainder, 60)
+
+	# Format the difference as HH:MM:SS
+	formatted_difference = f"{int(hours):02}:{int(minutes):02}:{int(seconds):02}"
+
+	print(state, datetime.now().strftime("%I:%M:%S %p"), ' difference: ', formatted_difference)
+
+	last_state_time = datetime.now()
+	return jsonify({"status": "state changed", "time_difference": formatted_difference})
+
+
+
+
+### Todos:
 
 # Define the todo model
 class Todo(db.Model):
@@ -29,12 +72,6 @@ def load_todos_from_db():
 	todos = [todo.to_dict() for todo in Todo.query.order_by(Todo.position).all()]
 	next_id = max([todo['id'] for todo in todos], default=0) + 1
 
-#	todos = [todo.to_dict() for todo in Todo.query.all()]
-#	if todos:
-#		next_id = max(todo['id'] for todo in todos) + 1
-#	else:
-#		next_id = 1
-
 # Create database and table
 with app.app_context():
 	db.create_all()
@@ -50,7 +87,7 @@ currently_dragged_todos = {} #A shared map of what's being dragged!
 def index():
 	return render_template('index.html')
 
-@app.route('/todo/')
+@app.route('/todo')
 def todo():
 	print('Rendering order:', todos)
 	load_todos_from_db() # Refreshes todo from db for localhost & vps
@@ -187,11 +224,21 @@ def update_order():
 		print('Error:', str(e))
 		return jsonify({'status': 'failure', 'error': str(e)}), 400
 
-@app.route('/art/')
+###
+#
+#
+
+@app.route('/art')
 def art():
 	return render_template('art.html')
 
-@app.route('/posts/')
+@app.route('/doesntExist')
+def doesntExist():
+	return render_template('doesntExist.html')
+
+### Posts:
+
+@app.route('/posts')
 def posts():
 	# Access the template folder path
 	# template_directory = app.template_folder
@@ -211,10 +258,6 @@ def posts():
 
 	return render_template('posts.html', posts=posts)
 
-@app.route('/doesntExist/')
-def doesntExist():
-	return render_template('doesntExist.html')
-
 @app.route('/posts/<post_name>')
 def post(post_name):
 	try:
@@ -223,7 +266,7 @@ def post(post_name):
 		print("uwuwuwuuwuw\n\n\n\n")
 		return render_template('doesntExist.html'), 404
 
-@app.route('/debug-paths/')
+@app.route('/debug-paths')
 def debug_paths():
 	posts_directory = os.path.join(app.root_path, 'templates/posts')
 	return {

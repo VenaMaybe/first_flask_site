@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}Time Tracker{% endblock %}
+{% block content %}
+	<div class="container-width">
+		<div class="header">
+			Time Tracker
+		</div>
+		<hr class="rounded">
+		Hi
+		<button href="#" class="btn-tt-swap" id="tt-main-button">Productive</button>
+		<div id="time-deltas-list"></div>
+		<script>
+		    const button = document.getElementById('tt-main-button');
+
+			// States:
+			const STATE_UNDF = "Undefined"
+			const STATE_PROD = "Productive";
+			const STATE_UNPRD = "Unproductive";
+
+			let timerState = STATE_UNDF;
+			let timeDeltas = []
+;
+			function updateState(newState) {
+				timerState = newState;
+				console.log(timerState)
+				fetch('/time-tracker/state', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({
+							state: timerState
+						})
+					})
+						.then(response => response.json())
+						.then(data => {
+							console.log('Success:', data);
+						
+							if (data.time_difference) {
+								timeDeltas.push(data.time_difference);
+								console.log('Time Deltas:', timeDeltas)
+							}
+							
+							updateDOM();
+						})
+						.catch(error => console.error('Error:', error))
+
+			}
+
+			function updateDOM() {
+    		    const listContainer = document.getElementById('time-deltas-list');
+    		    listContainer.innerHTML = '';  // Clear previous content
+
+    		    timeDeltas.forEach((delta, index) => {
+    		        const deltaElement = document.createElement('div');
+    		        deltaElement.textContent = delta;
+    		        listContainer.appendChild(deltaElement);
+    		    });
+    		}
+
+		    button.addEventListener('click', function() {
+		      	if (button.textContent == "Productive") {
+					button.textContent = "Unproductive";
+					updateState(STATE_PROD);
+					
+				} else {
+					button.textContent = "Productive";
+					updateState(STATE_UNPRD);
+				}
+		    });
+		</script>
+
+		
+		
+	</div>
+{% endblock %}

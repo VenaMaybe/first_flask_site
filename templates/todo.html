@@ -16,6 +16,7 @@
 			{% for todo in todos %}
 				<li data-id="{{ todo.id }}">{{ todo.text }} <button href="#" class="btn-remove" data-id="{{ todo.id }}">Remove</button></li>
 			{% endfor %}
+			<!-- Could make the li have columns for text then button -->
 		</ul>
 	</div>
 
