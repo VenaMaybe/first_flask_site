@@ -2,7 +2,7 @@
 
 :root {
     --text-color: #0f0e0e;
-    --background-color: #bbc4cc;
+    --background-color: #ff0000;
     --primary-color: #4a591d;
     --secondary-color: #e1cfd9;
     --secondary-gradient: linear-gradient(0deg, #fffffe, #3e6b1f);
@@ -28,10 +28,10 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
-    /* background-color: var(--background-color); */
+    background-color: #6784a4;
     background-image: url('../images/peter-aroner-fog-cropped.jpg');
     background-position: bottom;
-    background-size: 100%;
+    background-size: cover;
     color: var(--text-color);
     scrollbar-color: var(--secondary-color) #00000000; /* thumb and track colors */
 }
@@ -485,7 +485,7 @@ form {
 
 @media (max-width: 480px) {
     body {
-        background-size: 120%;
+        background-size: cover;
     }
     .content {
         padding-inline: 2.5%;
