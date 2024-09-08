@@ -53,7 +53,7 @@
 
     		    timeDeltas.forEach((delta, index) => {
     		        const deltaElement = document.createElement('div');
-    		        deltaElement.textContent = delta;
+    		        deltaElement.textContent =index + ": " + delta;
     		        listContainer.appendChild(deltaElement);
     		    });
     		}
