@@ -30,7 +30,7 @@ body {
     padding: 0;
     background-color: #6784a4;
     background-image: url('../images/peter-aroner-fog-cropped.jpg');
-    background-position: bottom;
+    background-position: top;
     background-size: cover;
     color: var(--text-color);
     scrollbar-color: var(--secondary-color) #00000000; /* thumb and track colors */

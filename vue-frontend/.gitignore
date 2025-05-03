@@ -1,12 +1,3 @@
-# Ignore Node modules
-node_modules/
-.env
-
-# Virtual environments
-venv/
-env/
-ENV/
-
 # Logs
 logs
 *.log
