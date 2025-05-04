@@ -7,12 +7,16 @@ import Projects from '../views/Projects.vue'
 import Writing  from '../views/Writing.vue'
 import Resume   from '../views/Resume.vue'
 
+// Apps
+import Draw   from '../views/Draw.vue'
+
 const routes = [
-    { path: '/',      	 name: 'Home',     component: Home  },
-    { path: '/about', 	 name: 'Me', 	   component: About },
-    { path: '/projects', name: 'Projects', component: Projects },
-    { path: '/posts', 	 name: 'Writing',  component: Writing },
-    { path: '/resume', 	 name: 'Resume',   component: Resume },
+    { path: '/',      	 name: 'Home',     component: Home      },
+    { path: '/about', 	 name: 'Me', 	   component: About     },
+    { path: '/projects', name: 'Projects', component: Projects  },
+    { path: '/posts', 	 name: 'Writing',  component: Writing   },
+    { path: '/resume', 	 name: 'Resume',   component: Resume    },
+    { path: '/draw', 	 name: 'Draw',     component: Draw,    meta: {fullFlex: true} },
 ]
 
 const router = createRouter({

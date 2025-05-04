@@ -17,8 +17,8 @@
 
 body {
 	margin: 0;
-	display: flex;
 	min-width: 320px;
+	height: 100vh;
 	min-height: 100vh;
 
 	box-sizing: border-box;
@@ -27,12 +27,17 @@ body {
 	color: var(--text-color);
 	font-weight: 300;
 	line-height: 22px;
-	overflow-y: hidden;
 	z-index: -2;
 }
 
 #app {
+	box-sizing: border-box;
 	max-width: 1280px;
+	height: 100%;
+
+	display: flex;
+	flex-direction: column;
+	
 	margin: 0 auto;
 	padding: 2rem;
 	text-align: center;
@@ -54,6 +59,7 @@ body {
 
 /* What blends */
 h1, h2, h3, nav a, p, hr, RouterLink {
+	will-change: opacity, transform;
     mix-blend-mode: difference;
 }
 
@@ -62,7 +68,7 @@ header {
 }
 
 .header-top {
-	display: flex;
+	display: flex; /*edit this to be cool when small*/
 	justify-content: space-between;
 	align-items: baseline;
 }
@@ -73,8 +79,6 @@ h1 {
 	font-weight: 400;
 	font-size: 3.2em;
 	line-height: 1.1;
-    mix-blend-mode: difference;
-
 }
 
 h3 {
@@ -108,21 +112,47 @@ a {
 	margin-left: 20px;
 }
 
+main {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+}
+
 .main-container {
+	box-sizing: border-box;
 	max-width: 1140px;
 	min-width: 650px;
+	height: 100%;
+	/* min-width: 650px; */
 	margin: 0 auto;
 	padding: 0px;
 	margin-bottom: 6em;
+
+	display: flex;
+	flex-direction: column;
+	flex: 0;
 }
 
-.content-container {
-	margin: 0 0px
+/* applied with meta data */
+.main-container.full-flex {
+	flex: 1;
+	margin: 0;
+}
+
+/* This will look for any glass inside a main container full flex*/
+.main-container.full-flex .glass {
+	width: 100%;
+	height: 100%;
 }
 
 .short-content-container {
 	max-width: 550px;
 	line-height: 22px;
+}
+
+.wide-button {
+	width: 200px;
+	padding: 10px
 }
 
 p {
@@ -133,7 +163,7 @@ p {
 hr {
 	display: block;
 	overflow: visible;
-	width: auto;
+	width: 100%;
 	border: none;
 	border-top: 1px solid var(--primary-color);
 	position: relative;

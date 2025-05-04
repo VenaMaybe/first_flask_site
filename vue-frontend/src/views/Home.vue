@@ -1,7 +1,7 @@
 <script setup>
 
 import GlassPanel from '../components/GlassPanel.vue'
-import ProjectsList from '../components/ProjectsList.vue'
+import AppList from '../components/AppList.vue'
 
 </script>
 
@@ -19,7 +19,7 @@ import ProjectsList from '../components/ProjectsList.vue'
 				</div>
 			</div>
 
-			<ProjectsList/>
+			<AppList/>
 			
 		</div>
 	</GlassPanel>
