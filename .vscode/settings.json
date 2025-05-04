@@ -1,6 +1,7 @@
 {
 	"liveServer.settings.multiRootWorkspaceName": "python_flask_site1",
 	"cSpell.words": [
+		"dotenv",
 		"jsonify"
 	]
 }

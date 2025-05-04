@@ -17,7 +17,6 @@
 
 body {
 	margin: 0;
-	min-width: 320px;
 	height: 100vh;
 	min-height: 100vh;
 
@@ -32,7 +31,6 @@ body {
 
 #app {
 	box-sizing: border-box;
-	max-width: 1280px;
 	height: 100%;
 
 	display: flex;
@@ -81,6 +79,15 @@ h1 {
 	line-height: 1.1;
 }
 
+h2 {
+	margin: 0;
+	padding: 0;
+	font-weight: 400;
+	font-size: 1.6em;
+	line-height: 0.4;
+}
+
+
 h3 {
 	font-weight: bold;
 	margin: 0;
@@ -121,13 +128,10 @@ main {
 .main-container {
 	box-sizing: border-box;
 	max-width: 1140px;
-	min-width: 650px;
+	min-width: 652px;
 	height: 100%;
-	/* min-width: 650px; */
 	margin: 0 auto;
 	padding: 0px;
-	margin-bottom: 6em;
-
 	display: flex;
 	flex-direction: column;
 	flex: 0;
@@ -135,8 +139,8 @@ main {
 
 /* applied with meta data */
 .main-container.full-flex {
+	width: 100%;
 	flex: 1;
-	margin: 0;
 }
 
 /* This will look for any glass inside a main container full flex*/
@@ -188,6 +192,11 @@ hr::after {
 	transform: rotate(90deg);
 }
 
+hr.clean::before,
+hr.clean::after {
+	content: none;
+}
+
 .glass {
 	position: relative;
 	border-radius: 16px;
@@ -195,6 +204,12 @@ hr::after {
 	overflow: hidden;
 
 	box-shadow: 0 0 20px 6px rgba(255, 255, 255, 0.3);
+}
+
+.glass-inner {
+	box-shadow: inset 0 0 1px 0px rgba(255, 255, 255, 0.3);
+	border-radius: 12px;
+	/* or 0 0 4px 2px rgba(107, 130, 180, 0.38)*/
 }
 
 .glass-sheen::before {
@@ -220,12 +235,6 @@ hr::after {
 	transform: translateX(100%) rotate(45deg);
 }
 
-.glass-inner {
-	box-shadow: inset 0 0 1px 0px rgba(255, 255, 255, 0.3);
-	border-radius: 12px;
-	/* or 0 0 4px 2px rgba(107, 130, 180, 0.38)*/
-}
-
 .glass-panel {
 	position: absolute;
 	inset: 0; /* This is what makes it fill the parrent*/
@@ -235,18 +244,10 @@ hr::after {
 	pointer-events: none;
 }
 
-.glass-panel-inner {
-	pointer-events: none;
-	position: absolute;
-	inset: 0; /* This is what makes it fill the parrent*/
-	z-index: 0;
-	backdrop-filter: blur(10px);
-	background-color: rgba(255, 255, 255, 0.00);
-}
-
 .glass-content {
 	padding: 1.5rem;
-	z-index: 1;;
+	z-index: 1;
+	box-sizing: border-box;
 }
 
 .main-landing-content-grid {

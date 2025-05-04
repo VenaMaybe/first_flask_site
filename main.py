@@ -1,9 +1,13 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, redirect, url_for, jsonify, session
 from flask_socketio import SocketIO, emit
 from flask_sqlalchemy import SQLAlchemy
 from jinja2 import TemplateNotFound
 from datetime import datetime # [USE : TIME TRACKER]
+from flask_dance.contrib.google import make_google_blueprint, google # for auth
+from dotenv import load_dotenv
 import os
+
+load_dotenv()
 
 app = Flask(__name__)
 #app.url_map.strict_slashes = False # Doesn't force the absense of / after url
@@ -12,21 +16,78 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL') # Might want t
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
-socketio = SocketIO(app, async_mode='eventlet')
+socketio = SocketIO(app, async_mode='eventlet', cors_allowed_origins="*")
 
-### Slash Remover
-@app.before_request
-def remove_trailing_slash():
-    path = request.path
-    # If the request path ends with a slash but is not the root path, redirect
-    if path != '/' and path.endswith('/'):
-        return redirect(path.rstrip('/'), code=301) # Code for SEO silliness
+# ### Slash Remover
+# @app.before_request
+# def remove_trailing_slash():
+# 	path = request.path
+# 	# If the request path ends with a slash but is not the root path, redirect
+# 	if path != '/' and path.endswith('/'):
+# 		return redirect(path.rstrip('/'), code=301) # Code for SEO silliness
 
-### New Site Landing
-@app.route('/new-landing')
-def new_landing():
-	return render_template('new-landing.html')
+# using https://console.cloud.google.com/auth/overview?project=connections-v1&supportedpurview=project
 
+### Tell flask-dance client creds
+google_bp = make_google_blueprint(
+	client_id=os.getenv('GOOGLE_OAUTH_CLIENT_ID'),
+	client_secret=os.getenv('GOOGLE_OAUTH_CLIENT_SECRET'),
+	scope=[
+      "openid",
+      "https://www.googleapis.com/auth/userinfo.email",
+      "https://www.googleapis.com/auth/userinfo.profile",
+    ],
+	redirect_url="http://localhost:5173/connections/welcome"
+)
+app.register_blueprint(google_bp, url_prefix="/login")
+
+@app.route("/api/user")
+def user_info():
+	if not google.authorized:
+		return {"logged_in": False}, 401
+	resp = google.get("/oauth2/v2/userinfo")
+	resp.raise_for_status()
+	profile = resp.json()
+	return {
+		"logged_in": True,
+		"id": profile["id"],
+		"email": profile["email"],
+		"name": profile["name"],
+		"first": profile["given_name"],
+		"last": profile["family_name"],
+		"picture": profile["picture"]
+	}
+
+@app.route("/login")
+def login():
+	return redirect(url_for("google.login"))
+
+@app.route("/api/test-user")
+def test_user():
+	if not google.authorized:
+		return "❌ User not logged in", 401
+
+	# fetch the profile from Google
+	resp = google.get("/oauth2/v2/userinfo")
+	resp.raise_for_status()
+	profile = resp.json()
+
+	# print to your Flask console
+	print("🟢 Logged-in user profile:", profile)
+
+	# return it as JSON so you can inspect in the browser or curl
+	return jsonify(profile)
+
+@app.route('/logout')
+def logout():
+    # remove the Flask-Dance token from the session
+    session.pop('google_oauth_token', None)
+    # if you’re storing anything else—like your own user ID—pop it too:
+    # session.pop('user_id', None)
+    # now send them back to your home or login page
+    return redirect(url_for('index'))  # or 'new_landing' or wherever
+
+### The API route will be for the new vue version of the site
 # A route to fetch the list of my projects (json endpoint)
 @app.route('/api/projects')
 def api_projects():
@@ -37,7 +98,29 @@ def api_projects():
 	]
 	return jsonify({ 'projects': projects })
 
+#
+# shared canvas
+#
 
+@socketio.on('draw_data')
+def handle_draw(data):
+	# smt like {'x': cord, 'y': cord}
+	emit('draw_data', data, broadcast=True, include_self=False)
+
+
+
+
+
+
+
+#
+#
+#
+
+### New Site Landing
+@app.route('/new-landing')
+def new_landing():
+	return render_template('new-landing.html')
 
 ###
 ### Time tracker
