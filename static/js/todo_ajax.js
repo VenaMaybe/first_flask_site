@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		const input = document.querySelector('.input-todo');
 		const todoText = input.value;
 
-		fetch('/add', {
+		fetch('/todo/add', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded',
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			if (todoId) {
 				targetElement.parentElement.remove()
 
-				fetch(`/remove`, {
+				fetch(`/todo/remove`, {
 					method: 'POST',
 					headers: {
 						'Content-Type' : 'application/json',

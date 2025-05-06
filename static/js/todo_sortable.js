@@ -44,7 +44,7 @@ if (todoList) {
 				newIndex: evt.newIndex
 			}
 
-			fetch('/update-id-location', {
+			fetch('/todo/update-id-location', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',

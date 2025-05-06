@@ -12,7 +12,7 @@
 
     {% if posts %}
         {% for post in posts %}
-            <a href="{{ url_for('post', post_name=post.link) }}" class="button">{{ post.display }}</a>
+            <a href="{{ url_for('views.post', post_name=post.link) }}" class="button">{{ post.display }}</a>
             <hr class="invis">
         {% endfor %}
     {% else %}
