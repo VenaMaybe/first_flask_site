@@ -1,12 +1,14 @@
+import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_socketio import SocketIO
+from flask_migrate import Migrate
 from dotenv import load_dotenv
-import os
 
 load_dotenv()
 
 db       = SQLAlchemy()
+migrate  = Migrate()
 socketio = SocketIO(async_mode='eventlet', cors_allowed_origins="*")
 
 def create_app():
@@ -29,10 +31,11 @@ def create_app():
 	app.url_map.strict_slashes = False
 
 	db.init_app(app)
+	migrate.init_app(app, db)
 	socketio.init_app(app)
 
 	# register blueprints
-	from .auth          import bp as auth_bp;          app.register_blueprint(auth_bp)
+	from .auth	        import bp as auth_bp;          app.register_blueprint(auth_bp)
 	from .api           import bp as api_bp;           app.register_blueprint(api_bp, url_prefix='/api')
 	from .sockets       import init_sockets;           init_sockets(socketio)
 	from .views         import bp as views_bp;         app.register_blueprint(views_bp)
@@ -40,3 +43,16 @@ def create_app():
 	from .todo          import bp as todo_bp;          app.register_blueprint(todo_bp, url_prefix='/todo')
 
 	return app
+
+'''
+Once had to
+	> flask db init
+
+Do stuff like this to migrate a table or create it
+	> flask db migrate -m "create users table"
+	> flask db upgrade
+
+====
+When I do import app.auth, Python looks for app/auth/__init__.py.	
+
+'''
