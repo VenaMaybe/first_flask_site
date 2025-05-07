@@ -3,8 +3,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { userStore } from '../stores/user'
 
 import Home     from '../views/Home.vue'
-import ConnWelcomeHeader  from '../views/Connections/ConnectionsWelcome.vue'
-import ConnRegularHeader  from '../views/Connections/ConnectionsHeaderStandard.vue'
 import About    from '../views/About.vue'
 import Projects from '../views/Projects.vue'
 import Writing  from '../views/Writing.vue'
@@ -13,6 +11,14 @@ import Resume   from '../views/Resume.vue'
 // Apps
 import Draw         from '../views/Draw.vue'
 import Connections  from '../views/Connections/Connections.vue'
+
+// Connections components
+import ConnWelcomeHeader  from '../views/Connections/ConnectionsWelcome.vue'
+import ConnRegularHeader  from '../views/Connections/ConnectionsHeaderStandard.vue'
+import ConnAddPerson      from '../views/Connections/ConnAddPerson.vue'
+import ConnLogin          from '../views/Connections/ConnLogin.vue'
+
+
 
 const routes = [
     { path: '/',            name: 'Home',     component: Home      },
@@ -24,11 +30,20 @@ const routes = [
     { path: '/connections',  component: Connections,   meta: {fullFlex: true}, 
         children: [
             {
-                path: '', 
-                name: 'Connections',
+                path: 'login', 
+                name: 'ConnectionsLogin',
                 components: {
                     header: ConnRegularHeader,
-                    //default: ConnBody
+                    default: ConnLogin,
+                }
+            },
+            {
+                path: '', 
+                name: 'Connections',
+                meta: {requiresAuth: true},
+                components: {
+                    header: ConnRegularHeader,
+                    default: ConnAddPerson,
                 }
             },
             {
@@ -37,7 +52,6 @@ const routes = [
                 meta: {requiresAuth: true},
                 components: {
                     header: ConnWelcomeHeader,
-                    //default: ConnBody
                 }
             }
         ]

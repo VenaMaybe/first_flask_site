@@ -36,11 +36,13 @@ def create_app():
 
 	# register blueprints
 	from .auth	        import bp as auth_bp;          app.register_blueprint(auth_bp)
-	from .api           import bp as api_bp;           app.register_blueprint(api_bp, url_prefix='/api')
 	from .sockets       import init_sockets;           init_sockets(socketio)
 	from .views         import bp as views_bp;         app.register_blueprint(views_bp)
 	from .time_tracker  import bp as tt_bp;            app.register_blueprint(tt_bp, url_prefix='/time-tracker')
 	from .todo          import bp as todo_bp;          app.register_blueprint(todo_bp, url_prefix='/todo')
+
+	from .api           import bp as api_bp;           app.register_blueprint(api_bp, url_prefix='/api')
+	from .person		import bp as people_bp;		   app.register_blueprint(people_bp, url_prefix='/api/people')
 
 	return app
 

@@ -56,7 +56,7 @@ body {
 }
 
 /* What blends */
-h1, h2, h3, nav a, p, hr, RouterLink {
+h1, h2, h3, nav a, p, hr, RouterLink, label {
 	will-change: opacity, transform;
     mix-blend-mode: difference;
 }
@@ -117,6 +117,12 @@ a {
 
 .a-nav {
 	margin-left: 20px;
+}
+
+form {
+	color: black;
+	position: absolute;
+	z-index: 100;
 }
 
 main {

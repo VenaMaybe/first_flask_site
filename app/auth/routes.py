@@ -33,7 +33,7 @@ def user_info():
 		db.session.commit()
 
 	# ── save local user id in session ────────────────────
-	session["user_id"] = local_user.id
+	session["user_id"] = local_user.id # This is not the google ID!!!
 
 	# ── return whatever the frontend needs ────────────────
 	return {
