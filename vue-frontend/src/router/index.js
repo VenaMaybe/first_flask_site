@@ -4,6 +4,7 @@ import { userStore } from '../stores/user'
 
 import Home     from '../views/Home.vue'
 import ConnWelcomeHeader  from '../views/Connections/ConnectionsWelcome.vue'
+import ConnRegularHeader  from '../views/Connections/ConnectionsHeaderStandard.vue'
 import About    from '../views/About.vue'
 import Projects from '../views/Projects.vue'
 import Writing  from '../views/Writing.vue'
@@ -20,10 +21,19 @@ const routes = [
     { path: '/projects',    name: 'Projects', component: Projects  },
     { path: '/resume',      name: 'Resume',   component: Resume    },
     { path: '/draw',        name: 'Draw',         component: Draw,          meta: {fullFlex: true} },
-    { path: '/connections', name: 'Connections',  component: Connections,   meta: {fullFlex: true}, 
+    { path: '/connections',  component: Connections,   meta: {fullFlex: true}, 
         children: [
             {
+                path: '', 
+                name: 'Connections',
+                components: {
+                    header: ConnRegularHeader,
+                    //default: ConnBody
+                }
+            },
+            {
                 path: 'welcome', 
+                name: 'ConnectionsWelcome',
                 meta: {requiresAuth: true},
                 components: {
                     header: ConnWelcomeHeader,

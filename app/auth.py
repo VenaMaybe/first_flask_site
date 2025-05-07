@@ -66,4 +66,4 @@ def logout():
     # if you’re storing anything else—like your own user ID—pop it too:
     # session.pop('user_id', None)
     # now send them back to your home or login page
-    return redirect(url_for('index'))  # or 'new_landing' or wherever
+    return redirect(url_for('views.index'))  # or 'new_landing' or wherever

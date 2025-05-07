@@ -1,5 +1,5 @@
 <script setup>
-import { useRoute } from 'vue-router'
+import { RouterView, useRoute } from 'vue-router'
 
 const route = useRoute();
 
@@ -7,7 +7,12 @@ const route = useRoute();
 
 <template>
 	<div class="bg-layer"></div>
-	<div class="main-container" :class="{ 'full-flex': route.meta.fullFlex }">
+	<div v-if="route.meta.fullFlex" class="full-flex-wrapper full-flex">
+		<main>
+			<RouterView/>
+		</main>
+	</div>
+	<div v-else class="main-container" :class="{ 'full-flex': route.meta.fullFlex }">
 		<header>
 			<div class="header-top">
 				<h1>
@@ -32,3 +37,12 @@ const route = useRoute();
 		</p>
 	</div>
 </template>
+
+<style>
+.full-flex-wrapper {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+}
+</style>

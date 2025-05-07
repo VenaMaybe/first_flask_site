@@ -143,8 +143,8 @@ main {
 	flex: 1;
 }
 
-/* This will look for any glass inside a main container full flex*/
-.main-container.full-flex .glass {
+/* This will look for any glass inside a full flex*/
+.full-flex .glass {
 	width: 100%;
 	height: 100%;
 }
